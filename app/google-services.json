@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "816246246926",
+    "firebase_url": "https://kios-pamor-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "kios-pamor",
+    "storage_bucket": "kios-pamor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816246246926:android:75b4272efc4b652b69b65f",
+        "android_client_info": {
+          "package_name": "com.example.kiospamor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816246246926-tgdu6s2tkanok97lc6qacqojrdi2hlr3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHxP8BXb2df_LYafopk4XFm_Auy9E9o5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816246246926-tgdu6s2tkanok97lc6qacqojrdi2hlr3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

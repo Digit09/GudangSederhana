@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuInitialSetup">
+
+    <include
+        layout="@layout/toolbar_form_layout_initial_setup"
+        android:id="@+id/toolbar_pengaturanAwal" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_pengaturanAwal" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:id="@+id/rlProfil" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:text="* Isi biodata usaha berikut terlebih dahulu (wajib)"
+                    android:textSize="14sp"
+                    android:id="@+id/tvAdded_pa" />
+
+                <ProgressBar
+                    android:layout_toRightOf="@id/tvAdded_pa"
+                    android:textAlignment="center"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    style="?android:attr/progressBarStyle"
+                    android:id="@+id/progressbar_is" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:textSize="17dp"
+                    android:hint="Nama Toko.."
+                    android:padding="12dp"
+                    android:drawablePadding="10dp"
+                    android:background="@drawable/round_border"
+                    android:drawableLeft="@drawable/ic_baseline_home_work_24"
+                    android:layout_below="@id/tvAdded_pa"
+                    android:inputType="text"
+                    android:id="@+id/edNamaToko_pa" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:textSize="17dp"
+                    android:hint="Nama Pemilik.."
+                    android:padding="12dp"
+                    android:drawablePadding="10dp"
+                    android:background="@drawable/round_border"
+                    android:drawableLeft="@drawable/ic_baseline_person_24"
+                    android:layout_below="@id/edNamaToko_pa"
+                    android:inputType="text"
+                    android:id="@+id/edNamaPemilik_pa" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:textSize="17dp"
+                    android:hint="Alamat.."
+                    android:padding="12dp"
+                    android:drawablePadding="10dp"
+                    android:background="@drawable/round_border"
+                    android:drawableLeft="@drawable/ic_baseline_location_on_24"
+                    android:layout_below="@id/edNamaPemilik_pa"
+                    android:inputType="text"
+                    android:id="@+id/edAlamat_pa" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:textSize="17dp"
+                    android:hint="Nomor Telepon.."
+                    android:padding="12dp"
+                    android:drawablePadding="10dp"
+                    android:background="@drawable/round_border"
+                    android:drawableLeft="@drawable/ic_baseline_call_24"
+                    android:layout_below="@id/edAlamat_pa"
+                    android:inputType="number"
+                    android:id="@+id/edNoTelepon_pa" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:textSize="18sp"
+                    android:text="Simpan"
+                    android:textColor="@color/white"
+                    android:background="@drawable/round_button"
+                    android:backgroundTint="#c62828"
+                    android:layout_below="@id/edNoTelepon_pa"
+                    android:id="@+id/btSimpan" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="#5e5e5e"
+                android:layout_marginVertical="5dp"
+                android:layout_below="@id/rlProfil"
+                android:id="@+id/separator1"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="from"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:layout_below="@id/separator1"
+                android:id="@+id/tvAdded_from" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="D i g i t   |   B a n u a D e v"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_below="@id/tvAdded_from" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

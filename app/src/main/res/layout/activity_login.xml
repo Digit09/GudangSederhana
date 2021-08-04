@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#e53935"
+    tools:context=".Login">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="670dp"
+    android:layout_margin="4dp"
+    android:layout_centerInParent="true"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@mipmap/ic_menu"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:translationZ="90dp"
+        android:id="@+id/added_kiospamor" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true"
+        android:layout_centerInParent="true"
+        android:id="@+id/added_Dsgn1" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:layout_marginHorizontal="13dp"
+            android:layout_marginBottom="50dp"
+            android:gravity="center"
+            android:id="@+id/added_body1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="AUTENTIKASI"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:id="@+id/added_Login" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:textSize="17dp"
+                android:hint="Email.."
+                android:padding="12dp"
+                android:drawablePadding="10dp"
+                android:background="@drawable/round_border"
+                android:drawableLeft="@drawable/ic_baseline_email_24"
+                android:layout_below="@id/added_Login"
+                android:inputType="textEmailAddress"
+                android:id="@+id/edEmail" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:textSize="17dp"
+                android:hint="Kata Sandi.."
+                android:padding="12dp"
+                android:drawablePadding="10dp"
+                android:background="@drawable/round_border"
+                android:drawableLeft="@drawable/ic_baseline_lock_24"
+                android:layout_below="@id/edEmail"
+                android:layout_centerVertical="true"
+                android:inputType="textPassword"
+                android:id="@+id/edPassword" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/edPassword"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentEnd="true"
+                android:text="Lihat Kata Sandi"
+                android:textSize="16sp"
+                android:id="@+id/cbShowPassword" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:textSize="18sp"
+                android:text="Masuk"
+                android:textColor="@color/white"
+                android:background="@drawable/round_button"
+                android:backgroundTint="#c62828"
+                android:layout_below="@id/cbShowPassword"
+                android:id="@+id/btMasuk" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btMasuk"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:id="@+id/uploadProgress" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_marginTop="10dp"
+                android:textSize="15dp"
+                android:gravity="bottom|center"
+                android:layout_below="@id/uploadProgress"
+                android:textStyle="italic"
+                android:text="developer : digit - BanuaDev" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
+
+</RelativeLayout>
