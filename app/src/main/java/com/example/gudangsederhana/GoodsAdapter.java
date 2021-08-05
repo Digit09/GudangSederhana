@@ -45,16 +45,14 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         holder.id = goods.getId();
         if (MenuSearch.lengthStrSearch > 0) {
             // Change Substring Color
-            Toast.makeText(context, "SATU", Toast.LENGTH_SHORT).show();
             str = new SpannableString(goods.getName());
             str.setSpan(greenC, 0, MenuSearch.lengthStrSearch, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            holder.nama.setText(" " + str);
+            holder.nama.setText(str);
         } else {
-            Toast.makeText(context, "DUA", Toast.LENGTH_SHORT).show();
-            holder.nama.setText(" " + goods.getName());
+            holder.nama.setText(goods.getName());
         }
-        holder.produsen.setText(goods.getProducer());
-        holder.harga.setText(MainActivity.rupiahkan(goods.getPrice()));
+        holder.produsen.setText(" " + goods.getProducer());
+        holder.harga.setText(" " + MainActivity.rupiahkan(goods.getPrice()));
         holder.rlItem.setOnClickListener(v -> {
             //InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             //imm.hideSoftInputFromWindow(holder.edSearch.getWindowToken(), 0);

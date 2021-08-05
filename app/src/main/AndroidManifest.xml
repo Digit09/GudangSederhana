@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KiosPamor">
-        <activity android:name=".MenuSearchDetail"></activity>
+        <activity android:name=".settings.MainSettingsProfil"></activity>
+        <activity android:name=".MenuSearchDetail" />
         <activity android:name=".MenuSearch" />
         <activity android:name=".SplashScreen">
             <intent-filter>

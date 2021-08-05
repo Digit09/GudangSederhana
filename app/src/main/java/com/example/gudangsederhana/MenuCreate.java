@@ -57,7 +57,7 @@ public class MenuCreate extends AppCompatActivity {
         getEdId = findViewById(R.id.edId);
         Intent intent = getIntent();
         if (intent.hasExtra("idBarangC")) {
-            String id = getIntent().getStringExtra("idBarangC");
+            String id = intent.getStringExtra("idBarangC");
             getEdId.setText(id);
         } else {
             getEdId.setText("");
@@ -109,7 +109,7 @@ public class MenuCreate extends AppCompatActivity {
     }
 
     private void createData() {
-        String id = getEdNamaB.getText().toString().trim();
+        String id = getEdId.getText().toString().trim();
         String nama = MainActivity.capitalizeEachWord(getEdNamaB.getText().toString().trim());
         String harga = MainActivity.capitalizeEachWord(getEdHarga.getText().toString().trim());
         String modal = MainActivity.capitalizeEachWord(getEdModal.getText().toString().trim());
@@ -117,8 +117,8 @@ public class MenuCreate extends AppCompatActivity {
         String kedaluwarsa = MainActivity.capitalizeEachWord(getEdKedaluwarsa.getText().toString().trim());
 
         if (id.isEmpty()){
-            getEdNamaB.setError("Barcode Barang harus diisi (Manual)..");
-            getEdNamaB.requestFocus();
+            getEdId.setError("Barcode Barang harus diisi (Manual)..");
+            getEdId.requestFocus();
         }
         else if (nama.isEmpty()) {
             getEdNamaB.setError("Nama Barang harus diisi..");

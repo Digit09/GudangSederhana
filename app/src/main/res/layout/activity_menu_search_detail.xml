@@ -21,15 +21,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="45dp"
-            android:paddingStart="25dp"
+            android:paddingStart="20dp"
             android:text="Data Barang :"
             android:textStyle="bold"
-            android:textSize="19sp"
+            android:textSize="18sp"
             android:id="@+id/addedJudul"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:paddingHorizontal="42dp"
+            android:paddingHorizontal="37dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/addedJudul"
             android:id="@+id/rlResult" >
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="18dp"
                 android:text="ID Bardcode"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/addedResult" />
             <TextView
                 android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
                 android:layout_toRightOf="@id/addedResult"
                 android:text=":"
                 android:paddingEnd="10dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:paddingTop="18dp"
                 android:id="@+id/addedResult1"/>
             <TextView
@@ -57,24 +57,24 @@
                 android:text="tvResult"
                 android:maxLines="4"
                 android:singleLine="false"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/tvResult" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:paddingHorizontal="42dp"
+            android:paddingHorizontal="37dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/rlResult"
             android:id="@+id/rlNama" >
             <TextView
                 android:layout_width="112dp"
                 android:layout_height="wrap_content"
-                android:paddingTop="18dp"
+                android:paddingTop="16dp"
                 android:text="Nama"
                 android:maxLines="4"
                 android:singleLine="false"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/addedNama" />
             <TextView
                 android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                 android:layout_toRightOf="@id/addedNama"
                 android:text=":"
                 android:paddingEnd="10dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:paddingTop="18dp"
                 android:id="@+id/addedNama1"/>
             <TextView
@@ -93,13 +93,13 @@
                 android:text="tvNama"
                 android:maxLines="4"
                 android:singleLine="false"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/tvNama" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:paddingHorizontal="42dp"
+            android:paddingHorizontal="37dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/rlNama"
             android:id="@+id/rlHarga" >
@@ -110,7 +110,7 @@
                 android:text="Harga"
                 android:maxLines="4"
                 android:singleLine="false"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/addedHarga" />
             <TextView
                 android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
                 android:layout_toRightOf="@id/addedHarga"
                 android:text=":"
                 android:paddingEnd="10dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:paddingTop="18dp"
                 android:id="@+id/addedHarga1"/>
             <TextView
@@ -129,7 +129,7 @@
                 android:text="tvHarga"
                 android:maxLines="4"
                 android:singleLine="false"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/tvHarga" />
         </RelativeLayout>
 
@@ -141,7 +141,7 @@
             android:id="@+id/rlDataShow" >
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:paddingHorizontal="42dp"
+                android:paddingHorizontal="37dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/rlModal" >
                 <TextView
@@ -151,7 +151,7 @@
                     android:text="Modal"
                     android:maxLines="4"
                     android:singleLine="false"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:id="@+id/addedModal" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                     android:layout_toRightOf="@id/addedModal"
                     android:text=":"
                     android:paddingEnd="10dp"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:paddingTop="18dp"
                     android:id="@+id/addedModal1"/>
                 <TextView
@@ -170,13 +170,13 @@
                     android:text="tvModal"
                     android:maxLines="4"
                     android:singleLine="false"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:id="@+id/tvModal" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:paddingHorizontal="42dp"
+                android:paddingHorizontal="37dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rlModal"
                 android:id="@+id/rlProdusen" >
@@ -187,7 +187,7 @@
                     android:text="Produsen"
                     android:maxLines="4"
                     android:singleLine="false"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:id="@+id/addedProdusen" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -195,7 +195,7 @@
                     android:layout_toRightOf="@id/addedProdusen"
                     android:text=":"
                     android:paddingEnd="10dp"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:paddingTop="18dp"
                     android:id="@+id/addedProdusen1"/>
                 <TextView
@@ -206,7 +206,7 @@
                     android:text="tvProdusen"
                     android:maxLines="4"
                     android:singleLine="false"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:id="@+id/tvProdusen" />
             </RelativeLayout>
         </RelativeLayout>
@@ -214,7 +214,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="42dp"
+            android:paddingHorizontal="37dp"
             android:layout_below="@id/rlDataShow"
             android:id="@+id/rlKedaluwarsa" >
             <TextView
@@ -224,7 +224,7 @@
                 android:text="Kedaluwarsa"
                 android:maxLines="4"
                 android:singleLine="false"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/addedKedaluwarsa" />
             <TextView
                 android:layout_width="wrap_content"
@@ -232,7 +232,7 @@
                 android:layout_toRightOf="@id/addedKedaluwarsa"
                 android:text=":"
                 android:paddingEnd="10dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:paddingTop="18dp"
                 android:id="@+id/addedKedaluwarsa1"/>
             <TextView
@@ -243,14 +243,14 @@
                 android:text="tvKedaluwarsa"
                 android:maxLines="4"
                 android:singleLine="false"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:id="@+id/tvKedaluwarsa" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="42dp"
+            android:paddingHorizontal="33dp"
             android:layout_below="@id/rlKedaluwarsa"
             android:paddingVertical="10dp"
             android:id="@+id/rlShowHide" >
@@ -291,7 +291,7 @@
                 android:background="@drawable/round_button"
                 android:textAllCaps="false"
                 android:text="Ubah"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="#c62828"
                 android:id="@+id/btUbah" />
             <Button
@@ -304,7 +304,7 @@
                 android:backgroundTint="#c62828"
                 android:textAllCaps="false"
                 android:text="Hapus"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/white"
                 android:id="@+id/btHapus" />
         </RelativeLayout>

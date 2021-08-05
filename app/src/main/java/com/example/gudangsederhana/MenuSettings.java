@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gudangsederhana.settings.MainSettingsProfil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,7 +37,7 @@ public class MenuSettings extends AppCompatActivity {
         TextView judulMenuC = findViewById(R.id.judulMenu);
         judulMenuC.setText("Setelan");
 
-        rlProfil = findViewById(R.id.rlProfil);
+        rlProfil = findViewById(R.id.rlProfil_ms);
         tvToko = findViewById(R.id.tvToko);
         tvPemilik = findViewById(R.id.tvPemilik);
 
@@ -45,11 +47,14 @@ public class MenuSettings extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
+                    String id = snapshot.child("uid").getValue().toString();
                     tvToko.setText(snapshot.child("shopName").getValue().toString());
                     tvPemilik.setText(snapshot.child("owner").getValue().toString());
 
                     rlProfil.setOnClickListener(v -> {
-                        // Masuk Activity ShowProfil
+                        Intent intent = new Intent(MenuSettings.this, MainSettingsProfil.class);
+                        intent.putExtra("uidPemilik", id);
+                        startActivity(intent);
                     });
                 } else {
                     Toast.makeText(MenuSettings.this, "Gagal mengambil data (Kode : MPEC1)", Toast.LENGTH_SHORT).show();

@@ -20,8 +20,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         declaration();
         loadJudul();
         allSettingClick();
-        cekIntentScanner();
+        //cekIntentScanner();
         cekInternet();
     }
 
@@ -175,8 +177,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     tvKet.setVisibility(View.VISIBLE);
                     rlRead.setVisibility(View.GONE);
-
-                    dataBaruTerdeteksi(result);
+                    if (getIntent().hasExtra("result")) {
+                        dataBaruTerdeteksi(result);
+                    }
                 }
 
             }
@@ -219,19 +222,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(idbarang);
-                ref.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(MainActivity.this, "Berhasil menghapus barang", Toast.LENGTH_SHORT).show();
-                        Intent intent = getIntent();
-                        intent.removeExtra("result");
-                        finish();
-                        startActivity(intent);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "Gagal menghapus barang", Toast.LENGTH_SHORT).show();
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(MainActivity.this, "Berhasil menghapus barang", Toast.LENGTH_SHORT).show();
+                            Intent intent = getIntent();
+                            intent.removeExtra("result");
+                            finish();
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Gagal menghapus barang", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -246,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void dataBaruTerdeteksi(String idBarangBaru) {
+        getIntent().removeExtra("result");
         AlertDialog.Builder newData = new AlertDialog.Builder(this);
         newData.setTitle("Konfirmasi Barang Baru");
         newData.setMessage("Barang tidak ditemukan. Apakah anda ingin menambahkan barang ini?");
