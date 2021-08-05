@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuSearch">
+
+    <include
+        layout="@layout/toolbar_form_layout_submenu"
+        android:id="@+id/toolbar_submenu" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="35dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        android:layout_below="@id/toolbar_submenu"
+        android:id="@+id/toolbarSearch" >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:textSize="16sp"
+            android:hint="Cari nama barang.."
+            android:padding="12dp"
+            android:drawablePadding="10dp"
+            android:background="@drawable/round_border"
+            android:drawableStart="@drawable/ic_baseline_search_24"
+            android:inputType="text"
+            android:id="@+id/edSearch" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        tools:listitem="@layout/recyclerview_main_item"
+        android:layout_below="@id/toolbarSearch"
+        android:id="@+id/rvMainA" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btMasuk"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:id="@+id/uploadProgress_ms" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="42dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:text="Barang tidak ditemukan"
+        android:textSize="17sp"
+        android:visibility="gone"
+        android:id="@+id/tvKetRV" />
+
+
+</RelativeLayout>

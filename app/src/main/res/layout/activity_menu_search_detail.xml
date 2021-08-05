@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MenuSearchDetail">
 
     <include
-        layout="@layout/toolbar_form_layout"
-        android:id="@+id/toolbar" />
+        layout="@layout/toolbar_form_layout_submenu"
+        android:id="@+id/toolbar_submenu" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_below="@id/toolbar"
+        android:visibility="visible"
+        android:layout_below="@id/toolbar_submenu"
         android:id="@+id/rlRead" >
 
         <TextView
@@ -139,76 +139,76 @@
             android:layout_below="@id/rlHarga"
             android:visibility="gone"
             android:id="@+id/rlDataShow" >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:paddingHorizontal="42dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/rlModal" >
-            <TextView
-                android:layout_width="112dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:paddingHorizontal="42dp"
                 android:layout_height="wrap_content"
-                android:paddingTop="18dp"
-                android:text="Modal"
-                android:maxLines="4"
-                android:singleLine="false"
-                android:textSize="18sp"
-                android:id="@+id/addedModal" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/addedModal"
-                android:text=":"
-                android:paddingEnd="10dp"
-                android:textSize="18sp"
-                android:paddingTop="18dp"
-                android:id="@+id/addedModal1"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="18dp"
-                android:layout_toRightOf="@id/addedModal1"
-                android:text="tvModal"
-                android:maxLines="4"
-                android:singleLine="false"
-                android:textSize="18sp"
-                android:id="@+id/tvModal" />
-        </RelativeLayout>
+                android:id="@+id/rlModal" >
+                <TextView
+                    android:layout_width="112dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="18dp"
+                    android:text="Modal"
+                    android:maxLines="4"
+                    android:singleLine="false"
+                    android:textSize="18sp"
+                    android:id="@+id/addedModal" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/addedModal"
+                    android:text=":"
+                    android:paddingEnd="10dp"
+                    android:textSize="18sp"
+                    android:paddingTop="18dp"
+                    android:id="@+id/addedModal1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="18dp"
+                    android:layout_toRightOf="@id/addedModal1"
+                    android:text="tvModal"
+                    android:maxLines="4"
+                    android:singleLine="false"
+                    android:textSize="18sp"
+                    android:id="@+id/tvModal" />
+            </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:paddingHorizontal="42dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/rlModal"
-            android:id="@+id/rlProdusen" >
-            <TextView
-                android:layout_width="112dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:paddingHorizontal="42dp"
                 android:layout_height="wrap_content"
-                android:paddingTop="18dp"
-                android:text="Produsen"
-                android:maxLines="4"
-                android:singleLine="false"
-                android:textSize="18sp"
-                android:id="@+id/addedProdusen" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/addedProdusen"
-                android:text=":"
-                android:paddingEnd="10dp"
-                android:textSize="18sp"
-                android:paddingTop="18dp"
-                android:id="@+id/addedProdusen1"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="18dp"
-                android:layout_toRightOf="@id/addedProdusen1"
-                android:text="tvProdusen"
-                android:maxLines="4"
-                android:singleLine="false"
-                android:textSize="18sp"
-                android:id="@+id/tvProdusen" />
-        </RelativeLayout>
+                android:layout_below="@id/rlModal"
+                android:id="@+id/rlProdusen" >
+                <TextView
+                    android:layout_width="112dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="18dp"
+                    android:text="Produsen"
+                    android:maxLines="4"
+                    android:singleLine="false"
+                    android:textSize="18sp"
+                    android:id="@+id/addedProdusen" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/addedProdusen"
+                    android:text=":"
+                    android:paddingEnd="10dp"
+                    android:textSize="18sp"
+                    android:paddingTop="18dp"
+                    android:id="@+id/addedProdusen1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="18dp"
+                    android:layout_toRightOf="@id/addedProdusen1"
+                    android:text="tvProdusen"
+                    android:maxLines="4"
+                    android:singleLine="false"
+                    android:textSize="18sp"
+                    android:id="@+id/tvProdusen" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
@@ -308,53 +308,6 @@
                 android:textColor="@color/white"
                 android:id="@+id/btHapus" />
         </RelativeLayout>
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="42dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:textAlignment="center"
-        android:text="Klik tombol kamera dibawah untuk mulai mencari data berdasarkan Barcode atau QR Code yang dideteksi oleh kamera."
-        android:textStyle="italic"
-        android:textSize="17sp"
-        android:visibility="visible"
-        android:id="@+id/tvKet" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="42dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:textAlignment="center"
-        android:text="Barang tidak ditemukan"
-        android:textSize="17sp"
-        android:visibility="gone"
-        android:id="@+id/tvKetRV" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/rlAllButton" >
-        <Button
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:background="@drawable/button_manualadd"
-            android:layout_marginBottom="15dp"
-            android:id="@+id/btManualAdd" />
-        <Button
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:background="@drawable/button_camera"
-            android:layout_below="@id/btManualAdd"
-            android:id="@+id/btScan" />
     </RelativeLayout>
 
 </RelativeLayout>

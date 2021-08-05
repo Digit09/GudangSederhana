@@ -68,10 +68,10 @@ public class MenuInitialSetup extends AppCompatActivity {
     }
 
     private void createData() {
-        String namaToko = edNamaToko.getText().toString().trim();
-        String namaPemilik = edNamaPemilik.getText().toString().trim();
-        String alamat = edAlamat.getText().toString().trim();
-        String noTelp = edNoTelp.getText().toString().trim();
+        String namaToko = MainActivity.capitalizeEachWord(edNamaToko.getText().toString().trim());
+        String namaPemilik = MainActivity.capitalizeEachWord(edNamaPemilik.getText().toString().trim());
+        String alamat = MainActivity.capitalizeEachWord(edAlamat.getText().toString().trim());
+        String noTelp = MainActivity.capitalizeEachWord(edNoTelp.getText().toString().trim());
 
         if (namaToko.isEmpty()){
             edNamaToko.setError("Nama Toko harus diisi..");

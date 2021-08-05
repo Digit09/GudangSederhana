@@ -1,14 +1,19 @@
 package com.example.gudangsederhana;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -35,6 +40,7 @@ public class MenuCreate extends AppCompatActivity {
     private ProgressBar progressBar;
     private String auth;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +55,13 @@ public class MenuCreate extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getEdId = findViewById(R.id.edId);
-        String id = getIntent().getStringExtra("idBarangC");
-        getEdId.setText(id);
+        Intent intent = getIntent();
+        if (intent.hasExtra("idBarangC")) {
+            String id = getIntent().getStringExtra("idBarangC");
+            getEdId.setText(id);
+        } else {
+            getEdId.setText("");
+        }
 
         getEdNamaB = findViewById(R.id.edNamaB);
         getEdHarga = findViewById(R.id.edHarga);
@@ -64,10 +75,18 @@ public class MenuCreate extends AppCompatActivity {
 
         dateSettings();
 
+        if (intent.hasExtra("btAdd")) {
+            getEdId.setEnabled(true);
+            getEdId.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(MenuCreate.getEdId, InputMethodManager.SHOW_IMPLICIT);
+            intent.removeExtra("btAdd");
+        }
+
         btSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createData(id);
+                createData();
             }
         });
     }
@@ -89,12 +108,13 @@ public class MenuCreate extends AppCompatActivity {
         }
     }
 
-    private void createData(String id) {
-        String nama = getEdNamaB.getText().toString().trim();
-        String harga = getEdHarga.getText().toString().trim();
-        String modal = getEdModal.getText().toString().trim();
-        String produsen = getEdProdusen.getText().toString().trim();
-        String kedaluwarsa = getEdKedaluwarsa.getText().toString().trim();
+    private void createData() {
+        String id = getEdNamaB.getText().toString().trim();
+        String nama = MainActivity.capitalizeEachWord(getEdNamaB.getText().toString().trim());
+        String harga = MainActivity.capitalizeEachWord(getEdHarga.getText().toString().trim());
+        String modal = MainActivity.capitalizeEachWord(getEdModal.getText().toString().trim());
+        String produsen = MainActivity.capitalizeEachWord(getEdProdusen.getText().toString().trim());
+        String kedaluwarsa = MainActivity.capitalizeEachWord(getEdKedaluwarsa.getText().toString().trim());
 
         if (id.isEmpty()){
             getEdNamaB.setError("Barcode Barang harus diisi (Manual)..");

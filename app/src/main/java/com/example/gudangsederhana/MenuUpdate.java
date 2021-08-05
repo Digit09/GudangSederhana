@@ -135,11 +135,11 @@ public class MenuUpdate extends AppCompatActivity {
     }
 
     private void updateData(String id){
-        String nama = getEdNamaB.getText().toString().trim();
-        String harga = getEdHarga.getText().toString().trim();
-        String modal = getEdModal.getText().toString().trim();
-        String produsen = getEdProdusen.getText().toString().trim();
-        String kedaluwarsa = getEdKedaluwarsa.getText().toString().trim();
+        String nama = MainActivity.capitalizeEachWord(getEdNamaB.getText().toString().trim());
+        String harga = MainActivity.capitalizeEachWord(getEdHarga.getText().toString().trim());
+        String modal = MainActivity.capitalizeEachWord(getEdModal.getText().toString().trim());
+        String produsen = MainActivity.capitalizeEachWord(getEdProdusen.getText().toString().trim());
+        String kedaluwarsa = MainActivity.capitalizeEachWord(getEdKedaluwarsa.getText().toString().trim());
 
         if (nama.isEmpty()) {
             getEdNamaB.setError("Nama Barang harus diisi..");
@@ -151,21 +151,21 @@ public class MenuUpdate extends AppCompatActivity {
         }
         else {
             if (modal.isEmpty()) {
-                getEdModal.setText("-");
+                modal = "-";
             }
             if (produsen.isEmpty()) {
-                getEdProdusen.setText("-");
+                produsen = "-";
             }
             if (kedaluwarsa.isEmpty()) {
-                getEdKedaluwarsa.setText("-");
+                kedaluwarsa = "-";
             }
 
             Map<String, Object> map = new HashMap<>();
-            map.put("name", getEdNamaB.getText().toString());
-            map.put("price", getEdHarga.getText().toString());
-            map.put("fund", getEdModal.getText().toString());
-            map.put("producer", getEdProdusen.getText().toString());
-            map.put("expired", getEdKedaluwarsa.getText().toString());
+            map.put("name", nama);
+            map.put("price", harga);
+            map.put("fund", modal);
+            map.put("producer", produsen);
+            map.put("expired", kedaluwarsa);
 
             progressBar.setVisibility(View.VISIBLE);
             String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -258,20 +258,15 @@ public class MenuUpdate extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnBack:
+                /*
                 Intent intent = new Intent(MenuUpdate.this, MainActivity.class);
-                intent.putExtra("result2", getEdId.getText().toString());
+                intent.putExtra("result", getEdId.getText().toString());
                 startActivity(intent);
                 finish();
+
+                 */
+                onBackPressed();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(MenuUpdate.this, MainActivity.class);
-        intent.putExtra("result2", getEdId.getText().toString());
-        startActivity(intent);
-        finish();
     }
 }

@@ -2,40 +2,44 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:paddingTop="10dp"
-    android:paddingHorizontal="10dp" >
+    android:paddingHorizontal="10dp"
+    android:id="@+id/rlItem_mi" >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
         android:text="Nama barang"
         android:textStyle="bold"
-        android:textSize="17sp"
+        android:textSize="16sp"
         android:id="@+id/tvNamaBarang_item" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Produsen"
-        android:textSize="16sp"
+        android:layout_marginBottom="3dp"
         android:layout_below="@id/tvNamaBarang_item"
+        android:text="Produsen"
+        android:textSize="15sp"
+        android:drawableStart="@drawable/ic_baseline_business_24"
         android:id="@+id/tvProdusen_item" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Harga"
-        android:textSize="16sp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@id/tvProdusen_item"
-        android:id="@+id/tvHarga_item"
-        android:layout_marginBottom="10dp" />
+        android:text="Harga"
+        android:textSize="15sp"
+        android:drawableStart="@drawable/ic_baseline_attach_money_24"
+        android:id="@+id/tvHarga_item" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
-        android:background="#5e5e5e"
         android:layout_marginVertical="5dp"
         android:layout_below="@id/tvHarga_item"
-        android:id="@+id/separator1"
-        />
+        android:background="#5e5e5e"
+        android:id="@+id/separator1" />
 
 </RelativeLayout>

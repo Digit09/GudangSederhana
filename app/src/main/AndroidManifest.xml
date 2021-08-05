@@ -12,19 +12,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KiosPamor">
-        <activity android:name=".MenuInitialSetup"></activity>
-        <activity android:name=".MenuSettings" />
-        <activity android:name=".MenuUpdate" />
-        <activity android:name=".MenuCreate" />
-        <activity android:name=".MenuScanner" />
-        <activity android:name=".Login" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MenuSearchDetail"></activity>
+        <activity android:name=".MenuSearch" />
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MenuInitialSetup" />
+        <activity android:name=".MenuSettings" />
+        <activity android:name=".MenuUpdate" />
+        <activity android:name=".MenuCreate" />
+        <activity android:name=".MenuScanner" />
+        <activity android:name=".Login" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

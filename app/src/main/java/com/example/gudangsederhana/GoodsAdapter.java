@@ -1,10 +1,19 @@
 package com.example.gudangsederhana;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +24,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
 
     Context context;
     ArrayList<Goods> list;
+    SpannableString str;
+    ForegroundColorSpan greenC = new ForegroundColorSpan(Color.GREEN);
 
     public GoodsAdapter(Context context, ArrayList<Goods> list) {
         this.context = context;
@@ -31,9 +42,26 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Goods goods = list.get(position);
-        holder.nama.setText(goods.getName());
+        holder.id = goods.getId();
+        if (MenuSearch.lengthStrSearch > 0) {
+            // Change Substring Color
+            Toast.makeText(context, "SATU", Toast.LENGTH_SHORT).show();
+            str = new SpannableString(goods.getName());
+            str.setSpan(greenC, 0, MenuSearch.lengthStrSearch, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.nama.setText(" " + str);
+        } else {
+            Toast.makeText(context, "DUA", Toast.LENGTH_SHORT).show();
+            holder.nama.setText(" " + goods.getName());
+        }
         holder.produsen.setText(goods.getProducer());
-        holder.harga.setText(rupiahkan(goods.getPrice()));
+        holder.harga.setText(MainActivity.rupiahkan(goods.getPrice()));
+        holder.rlItem.setOnClickListener(v -> {
+            //InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            //imm.hideSoftInputFromWindow(holder.edSearch.getWindowToken(), 0);
+            Intent intent = new Intent(context, MenuSearchDetail.class);
+            intent.putExtra("result", holder.id);
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -41,40 +69,19 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         return list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        RelativeLayout rlItem;
+        String id;
         TextView nama, produsen, harga;
+        EditText edSearch;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            id = null;
+            rlItem = itemView.findViewById(R.id.rlItem_mi);
             nama = itemView.findViewById(R.id.tvNamaBarang_item);
             produsen = itemView.findViewById(R.id.tvProdusen_item);
             harga = itemView.findViewById(R.id.tvHarga_item);
-        }
-    }
-
-    private String periksaData(String data){
-        if (data.isEmpty()){
-            data = "-";
-        }
-        return data;
-    }
-
-    String rupiahkan(String nominal) {
-        if (!nominal.equals("-")) {
-            // mis. : nominal = "2000"
-            Integer i = nominal.length(); // i = 4
-            String temp = "";
-            while (i > 0) { // 4 != 0
-                if (i > 3) {
-                    temp = "." + nominal.substring(i - 3, i) + temp; // temp = .000
-                    i -= 3; // i = 4-3 = 1
-                } else {
-                    temp = nominal.substring(0, i) + temp;
-                    i = 0;
-                }
-            }
-            return "Rp. " + temp;
-        } else {
-            return nominal;
+            edSearch = itemView.findViewById(R.id.edSearch);
         }
     }
 }

@@ -50,7 +50,9 @@
                 android:drawableTint="#c62828"
                 android:layout_below="@id/addedJudulTambah"
                 android:enabled="false"
-                android:inputType="textMultiLine"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:inputType="text"
                 android:id="@+id/edId" />
 
             <TextView

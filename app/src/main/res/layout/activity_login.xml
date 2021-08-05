@@ -9,7 +9,7 @@
 
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="670dp"
+    android:layout_height="640dp"
     android:layout_margin="4dp"
     android:layout_centerInParent="true"
     android:orientation="vertical" >
@@ -36,9 +36,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="70dp"
             android:layout_marginHorizontal="13dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
             android:id="@+id/added_body1">
 
@@ -102,24 +102,25 @@
                 android:layout_below="@id/cbShowPassword"
                 android:id="@+id/btMasuk" />
 
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btMasuk"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:id="@+id/uploadProgress" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
                 android:layout_marginTop="10dp"
                 android:textSize="15dp"
                 android:gravity="bottom|center"
-                android:layout_below="@id/uploadProgress"
+                android:layout_below="@id/btMasuk"
                 android:textStyle="italic"
-                android:text="developer : digit - BanuaDev" />
+                android:text="developer : digit - BanuaDev"
+                android:id="@+id/tvAdded1_l"/>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvAdded1_l"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"
+                android:id="@+id/uploadProgress" />
 
         </RelativeLayout>
 
