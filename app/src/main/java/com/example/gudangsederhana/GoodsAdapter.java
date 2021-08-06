@@ -51,8 +51,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         } else {
             holder.nama.setText(goods.getName());
         }
-        holder.produsen.setText(" " + goods.getProducer());
-        holder.harga.setText(" " + MainActivity.rupiahkan(goods.getPrice()));
+        holder.produsen.setText(goods.getProducer());
+        holder.harga.setText(MainActivity.rupiahkan(goods.getPrice()));
         holder.rlItem.setOnClickListener(v -> {
             //InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             //imm.hideSoftInputFromWindow(holder.edSearch.getWindowToken(), 0);

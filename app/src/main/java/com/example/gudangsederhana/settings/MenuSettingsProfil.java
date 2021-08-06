@@ -11,14 +11,14 @@ import android.widget.TextView;
 
 import com.example.gudangsederhana.R;
 
-public class MainSettingsProfil extends AppCompatActivity {
+public class MenuSettingsProfil extends AppCompatActivity {
 
     Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_settings_profil);
+        setContentView(R.layout.activity_menu_settings_profil);
 
         toolbar = findViewById(R.id.toolbar_submenu);
         setSupportActionBar(toolbar);

@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gudangsederhana.settings.MainSettingsProfil;
+import com.example.gudangsederhana.settings.MenuSettingsProfil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,7 +52,7 @@ public class MenuSettings extends AppCompatActivity {
                     tvPemilik.setText(snapshot.child("owner").getValue().toString());
 
                     rlProfil.setOnClickListener(v -> {
-                        Intent intent = new Intent(MenuSettings.this, MainSettingsProfil.class);
+                        Intent intent = new Intent(MenuSettings.this, MenuSettingsProfil.class);
                         intent.putExtra("uidPemilik", id);
                         startActivity(intent);
                     });

@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:text="Privasi, Ganti Email, Ganti Kata Sandi"
                         android:textSize="13.5sp"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:ellipsize="end"
                         android:layout_below="@id/tvAdded_Akun"
                         android:id="@+id/tvAdded_KetAkun" />
@@ -150,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:text="Petunjuk penggunaan, Beri Saran, Info Aplikasi"
                         android:textSize="13.5sp"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:ellipsize="end"
                         android:layout_below="@id/tvAdded_Bantuan"
                         android:id="@+id/tvAdded_KetBantuan" />

@@ -29,6 +29,9 @@
             android:background="@drawable/round_border"
             android:drawableStart="@drawable/ic_baseline_search_24"
             android:inputType="text"
+            android:imeOptions="actionDone"
+            android:imeActionLabel="OK"
+            android:maxLines="1"
             android:id="@+id/edSearch" />
     </androidx.cardview.widget.CardView>
 
@@ -61,5 +64,13 @@
         android:visibility="gone"
         android:id="@+id/tvKetRV" />
 
+    <Button
+        android:id="@+id/btShow_ms"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/button_show_options" />
 
 </RelativeLayout>
