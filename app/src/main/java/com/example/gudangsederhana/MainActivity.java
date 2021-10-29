@@ -37,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
     Toast backToast;
     Toolbar toolBar;
     RelativeLayout rlRead, rlDataShow, rlAllButton;
-    TextView tvResult, tvNama, tvHarga, tvModal, tvProdusen, tvKedaluwarsa, tvKet, judulMenuC;
+    TextView tvResult, tvNama, tvHarga, tvModal, tvKategori, tvProdusen, tvKedaluwarsa, tvKet, judulMenuC;
     Button updateBtn, deleteBtn, showBtn, hideBtn, btManualAdd, scannerBtn;
     String auth, getResult = "0";
-    SharedPreferences shopNameSaved;
+    public static SharedPreferences shopNameSaved, ownerSaved, addressSaved, phoneNumberSaved, emailSaved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +48,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         shopNameSaved = getApplicationContext().getSharedPreferences("shopNameSaved", MODE_PRIVATE);
+        ownerSaved = getApplicationContext().getSharedPreferences("ownerSaved", MODE_PRIVATE);
+        addressSaved = getApplicationContext().getSharedPreferences("addressSaved", MODE_PRIVATE);
+        phoneNumberSaved = getApplicationContext().getSharedPreferences("phoneNumberSaved", MODE_PRIVATE);
+        emailSaved = getApplicationContext().getSharedPreferences("emailSaved", MODE_PRIVATE);
 
         toolBar = findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
 
-        auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         declaration();
-        loadJudul();
         allSettingClick();
         //cekIntentScanner();
         cekInternet();
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         tvNama = findViewById(R.id.tvNama);
         tvHarga = findViewById(R.id.tvHarga);
         tvModal = findViewById(R.id.tvModal);
+        tvKategori = findViewById(R.id.tvKategori);
         tvProdusen = findViewById(R.id.tvProdusen);
         tvKedaluwarsa = findViewById(R.id.tvKedaluwarsa);
         tvKet = findViewById(R.id.tvKet);
@@ -150,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     String vName = snapshot.child("name").getValue().toString();
                     String vPrice = snapshot.child("price").getValue().toString();
                     String vFund = snapshot.child("fund").getValue().toString();
+                    String vCategory = snapshot.child("category").getValue().toString();
                     String vProducer = snapshot.child("producer").getValue().toString();
                     String vExpired = snapshot.child("expired").getValue().toString();
 
@@ -157,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                     tvNama.setText(vName);
                     tvHarga.setText(rupiahkan(vPrice));
                     tvModal.setText(rupiahkan(vFund));
+                    tvKategori.setText(vCategory);
                     tvProdusen.setText(vProducer);
                     tvKedaluwarsa.setText(vExpired);
 
@@ -277,17 +281,18 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, Login.class));
             finish();
         } else {
+            auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            loadJudul();
             cekIntentScanner();
         }
     }
 
     private void loadJudul(){
-        judulMenuC = findViewById(R.id.tvNamaTokoToolbar);
-        String loadName = shopNameSaved.getString(auth, "false");
-        if (loadName.equals("false")){
+        judulMenuC = findViewById(R.id.judulMenu);
+        if (cekSharedPreferenced()){
             String ref = FirebaseAuth.getInstance().getCurrentUser().getUid();
             DatabaseReference data = FirebaseDatabase.getInstance().getReference("Sellers").child(ref);
-            data.addListenerForSingleValueEvent(new ValueEventListener() {
+            data.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (!snapshot.exists()){
@@ -295,7 +300,15 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                     } else {
                         String getShopName = snapshot.child("shopName").getValue().toString();
+                        String getOwner = snapshot.child("owner").getValue().toString();
+                        String getAddress = snapshot.child("address").getValue().toString();
+                        String getPhoneNumber = snapshot.child("phoneNumber").getValue().toString();
+                        //String getEmail = snapshot.child("email").getValue().toString();
+                        //String getPass = snapshot.child("pass").getValue().toString();
                         shopNameSaved.edit().putString(auth, getShopName).apply();
+                        ownerSaved.edit().putString(auth, getOwner).apply();
+                        addressSaved.edit().putString(auth, getAddress).apply();
+                        phoneNumberSaved.edit().putString(auth, getPhoneNumber).apply();
                         judulMenuC.setText(shopNameSaved.getString(auth, "false"));
                         judulMenuC.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -314,6 +327,28 @@ public class MainActivity extends AppCompatActivity {
             });
         } else {
             judulMenuC.setText(shopNameSaved.getString(auth, "false"));
+        }
+    }
+
+    public static Boolean cekSharedPreferenced(){
+        String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String loadName = shopNameSaved.getString(auth, "false");
+        String loadName2 = ownerSaved.getString(auth, "false");
+        String loadName3 = addressSaved.getString(auth, "false");
+        String loadName4 = phoneNumberSaved.getString(auth, "false");
+        String loadName5 = emailSaved.getString(auth, "false");
+        if (loadName.equals("false")){
+            return true;
+        }if (loadName2.equals("false")){
+            return true;
+        }if (loadName3.equals("false")){
+            return true;
+        }if (loadName4.equals("false")){
+            return true;
+        }if (loadName5.equals("false")){
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -342,32 +377,36 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MenuSearch.class);
             intent.putExtra("shopName", judulMenuC.getText().toString());
             startActivity(intent);
-        }
-        switch (item.getItemId()) {
-            case R.id.logout:
-                AlertDialog.Builder logout = new AlertDialog.Builder(this);
-                logout.setTitle("Keluar dari Akun");
-                logout.setMessage("Apakah Anda yakin ingin keluar dari akun ini?");
-                logout.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        FirebaseAuth.getInstance().signOut(); //logout
-                        Intent intent = new Intent(MainActivity.this, Login.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-                logout.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        } else if (item.getItemId() == R.id.settings) {
+            Intent intent = new Intent(MainActivity.this, MenuSettings.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.logout) {
+            AlertDialog.Builder logout = new AlertDialog.Builder(this);
+            logout.setTitle("Keluar dari Akun");
+            logout.setMessage("Apakah Anda yakin ingin keluar dari akun ini?");
+            logout.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FirebaseAuth.getInstance().signOut(); //logout
+                    Intent intent = new Intent(MainActivity.this, Login.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            logout.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                });
-                logout.create().show();
-            case R.id.settings:
-                Intent intent = new Intent(MainActivity.this, MenuSettings.class);
-                startActivity(intent);
+                }
+            });
+            logout.create().show();
         }
+//        switch (item.getItemId()) {
+//            case R.id.logout:
+//
+//            case R.id.settings:
+//
+//        }
         return super.onOptionsItemSelected(item);
     }
 

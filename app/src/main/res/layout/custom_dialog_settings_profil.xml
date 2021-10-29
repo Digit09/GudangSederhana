@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="bottom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="0dp"
+    android:theme="@style/Theme.AppCompat.DayNight"
+    android:background="?attr/colorSecondary"
+    android:padding="25dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Masukkan ..."
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:id="@+id/addedKet_sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/addedKet_sp"
+        android:orientation="horizontal"
+        android:id="@+id/llEditText" >
+        <EditText
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:paddingVertical="0dp"
+            android:paddingHorizontal="0dp"
+            android:maxLines="1"
+            android:inputType="text"
+            android:background="@color/zxing_transparent"
+            android:id="@+id/editText" />
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:textAlignment="textEnd"
+            android:visibility="visible"
+            android:text="25"
+            android:id="@+id/tvEdLength"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2.2dp"
+        android:layout_below="@id/llEditText"
+        android:layout_gravity="bottom"
+        android:background="#07B35F"
+        android:id="@+id/separator1_sp"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/separator1_sp"
+        android:layout_alignParentEnd="true">
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#07B35F"
+            android:textStyle="bold"
+            android:background="?attr/selectableItemBackground"
+            android:text="Batal"
+            android:id="@+id/btBatal_sp" />
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:textColor="#07B35F"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/btBatal_sp"
+            android:background="?attr/selectableItemBackground"
+            android:text="Simpan"
+            android:id="@+id/btSimpan_sp" />
+    </RelativeLayout>
+</RelativeLayout>

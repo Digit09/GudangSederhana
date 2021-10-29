@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".settings.MenuSettingsProfil">
+    tools:context=".settings.MenuSettingsProfile">
 
     <include
-        layout="@layout/toolbar_form_layout_submenu"
-        android:id="@+id/toolbar_submenu" />
+        layout="@layout/toolbar_form_layout"
+        android:id="@+id/toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_submenu" >
+        android:layout_below="@id/toolbar" >
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -31,248 +31,273 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
 
-                    <RelativeLayout
-                        android:id="@+id/separator1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
-
-                        <TextView
-                            android:id="@+id/addedNamaToko_sp"
-                            android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="15dp"
+                        android:paddingHorizontal="5dp"
+                        android:id="@+id/llNamaToko_msp">
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="33dp"
+                            android:layout_weight="0.17"
+                            android:layout_gravity="top"
+                            android:src="@drawable/ic_baseline_business_24" />
+                        <RelativeLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:padding="10dp"
-                            android:text="Nama Lengkap Toko"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:layout_weight="0.83" >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nama Toko"
+                                android:textSize="15sp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:id="@+id/addedNamaToko_msp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="7dp"
+                                android:text="(Nama Toko)"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:layout_below="@id/addedNamaToko_msp"
+                                android:id="@+id/tvNamaToko_msp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="*Nama toko diharapkan terdaftar di OJK"
+                                android:textSize="13sp"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:layout_below="@id/tvNamaToko_msp"
+                                android:id="@+id/addedKetToko" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.09" >
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:src="@drawable/ic_baseline_edit_note_24" />
+                        </RelativeLayout>
+                    </LinearLayout>
 
-                        <EditText
-                            android:id="@+id/edNamaToko_sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/addedNamaToko_sp"
-                            android:layout_marginHorizontal="15dp"
-                            android:background="@drawable/round_border_id"
-                            android:drawableStart="@drawable/ic_baseline_home_work_24"
-                            android:drawablePadding="10dp"
-                            android:drawableTint="#c62828"
-                            android:ellipsize="end"
-                            android:enabled="false"
-                            android:hint="Masukkan nama toko.."
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:padding="12dp"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/addedNamaToko_Ket_sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/edNamaToko_sp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginHorizontal="10dp"
-                            android:padding="5dp"
-                            android:text="*Nama toko diharapkan terdaftar di OJK"
-                            android:textSize="14sp" />
-
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="5dp"
+                        android:layout_below="@id/llNamaToko_msp"
+                        android:id="@+id/separator1" >
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.145" />
                         <View
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="0.7dp"
-                            android:layout_below="@id/addedNamaToko_Ket_sp"
-                            android:layout_margin="5dp"
+                            android:layout_weight="0.755"
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginEnd="10dp"
                             android:background="#5e5e5e" />
+                    </LinearLayout>
 
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/separator2"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@id/separator1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/addedNamaPemilik_sp"
-                            android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="15dp"
+                        android:paddingHorizontal="5dp"
+                        android:id="@+id/llNamaPemilik_msp">
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="33dp"
+                            android:layout_weight="0.17"
+                            android:layout_gravity="top"
+                            android:src="@drawable/ic_baseline_person_24" />
+                        <RelativeLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:padding="10dp"
-                            android:text="Nama Lengkap Pemilik"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:layout_weight="0.83" >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nama Pemilik"
+                                android:textSize="15sp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:id="@+id/addedNamaPemilik_msp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="7dp"
+                                android:text="(Nama Pemilik)"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:layout_below="@id/addedNamaPemilik_msp"
+                                android:id="@+id/tvNamaPemilik_msp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.09" >
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:src="@drawable/ic_baseline_edit_note_24" />
+                        </RelativeLayout>
+                    </LinearLayout>
 
-                        <EditText
-                            android:id="@+id/edNamaPemilik_sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/addedNamaPemilik_sp"
-                            android:layout_marginHorizontal="15dp"
-                            android:background="@drawable/round_border_id"
-                            android:drawableStart="@drawable/ic_baseline_person_24"
-                            android:drawablePadding="10dp"
-                            android:drawableTint="#c62828"
-                            android:ellipsize="end"
-                            android:enabled="false"
-                            android:hint="Masukkan nama anda.."
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:padding="12dp"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/addedNamaPemilik_Ket_sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/edNamaPemilik_sp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginHorizontal="10dp"
-                            android:padding="5dp"
-                            android:text="*Nama sesuai dengan yang ada di KTP"
-                            android:textSize="14sp" />
-
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="5dp"
+                        android:layout_below="@id/llNamaPemilik_msp"
+                        android:id="@+id/separator2" >
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.145" />
                         <View
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="0.7dp"
-                            android:layout_below="@id/addedNamaPemilik_Ket_sp"
-                            android:layout_margin="5dp"
+                            android:layout_weight="0.755"
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginEnd="10dp"
                             android:background="#5e5e5e" />
+                    </LinearLayout>
 
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/separator3"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@id/separator2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/addedAlamat_sp"
-                            android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="15dp"
+                        android:paddingHorizontal="5dp"
+                        android:id="@+id/llAlamat_msp">
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="33dp"
+                            android:layout_weight="0.17"
+                            android:layout_gravity="top"
+                            android:src="@drawable/ic_baseline_location_on_24" />
+                        <RelativeLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:padding="10dp"
-                            android:text="Alamat Lengkap Toko"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:layout_weight="0.83" >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Alamat Toko"
+                                android:textSize="15sp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:id="@+id/addedAlamat_msp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="7dp"
+                                android:text="(Alamat Toko)"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:layout_below="@id/addedAlamat_msp"
+                                android:id="@+id/tvAlamat_msp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.09" >
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:src="@drawable/ic_baseline_edit_note_24" />
+                        </RelativeLayout>
+                    </LinearLayout>
 
-                        <EditText
-                            android:id="@+id/edAlamat_sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/addedAlamat_sp"
-                            android:layout_marginHorizontal="15dp"
-                            android:background="@drawable/round_border_id"
-                            android:drawableStart="@drawable/ic_baseline_location_on_24"
-                            android:drawablePadding="10dp"
-                            android:drawableTint="#c62828"
-                            android:ellipsize="end"
-                            android:enabled="false"
-                            android:hint="Masukkan alamat toko anda.."
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:padding="12dp"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/addedAlamat_Ket_sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/edAlamat_sp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginHorizontal="10dp"
-                            android:padding="5dp"
-                            android:text="*Alamat toko harus lengkap (beserta nomor bangunan)"
-                            android:textSize="14sp" />
-
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="5dp"
+                        android:layout_below="@id/llAlamat_msp"
+                        android:id="@+id/separator3" >
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.145" />
                         <View
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="0.7dp"
-                            android:layout_below="@id/addedAlamat_Ket_sp"
-                            android:layout_margin="5dp"
+                            android:layout_weight="0.755"
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginEnd="10dp"
                             android:background="#5e5e5e" />
+                    </LinearLayout>
 
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/separator4"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@id/separator3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/addedNoTelp_sp"
-                            android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="15dp"
+                        android:paddingHorizontal="5dp"
+                        android:id="@+id/llNoTelp_msp">
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="33dp"
+                            android:layout_weight="0.17"
+                            android:layout_gravity="top"
+                            android:src="@drawable/ic_baseline_call_24" />
+                        <RelativeLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:padding="10dp"
-                            android:text="Nomor Telepon Pemilik Toko"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <EditText
-                            android:id="@+id/edNoTelp_sp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/addedNoTelp_sp"
-                            android:layout_marginHorizontal="15dp"
-                            android:background="@drawable/round_border_id"
-                            android:drawableStart="@drawable/ic_baseline_location_on_24"
-                            android:drawablePadding="10dp"
-                            android:drawableTint="#c62828"
-                            android:ellipsize="end"
-                            android:enabled="false"
-                            android:hint="Masukkan nomor telepon anda.."
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:padding="12dp"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/addedNoTelp_Ket_sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/edNoTelp_sp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginHorizontal="10dp"
-                            android:padding="5dp"
-                            android:text="*Nomor telepon toko / nomor telepon pemilik"
-                            android:textSize="14sp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.7dp"
-                            android:layout_below="@id/addedNoTelp_Ket_sp"
-                            android:layout_margin="5dp"
-                            android:background="#5e5e5e" />
-
-                    </RelativeLayout>
+                            android:layout_weight="0.83" >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nomor Telepon Pemilik"
+                                android:textSize="15sp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:id="@+id/addedNoTelp_msp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="7dp"
+                                android:text="(Nomor Telepon)"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:layout_below="@id/addedNoTelp_msp"
+                                android:id="@+id/tvNoTelp_msp" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.09" >
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:src="@drawable/ic_baseline_edit_note_24" />
+                        </RelativeLayout>
+                    </LinearLayout>
 
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
-
-            <Button
-                android:id="@+id/btSimpan_sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/added_createDsign1"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="10dp"
-                android:background="@drawable/round_button"
-                android:backgroundTint="#c62828"
-                android:text="Simpan"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <ProgressBar
-                android:id="@+id/progressbarCreate"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_below="@id/btSimpan_sp"
-                android:layout_centerHorizontal="true"
-                android:visibility="invisible" />
 
         </RelativeLayout>
 

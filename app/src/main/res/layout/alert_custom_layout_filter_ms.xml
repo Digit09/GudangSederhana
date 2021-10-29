@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="20dp" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cari berdasarkan :"
+        android:id="@+id/addedKet1_fms"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addedKet1_fms"
+        android:background="@drawable/round_spinner"
+        android:padding="10dp"
+        android:id="@+id/spFilter" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spFilter"
+        android:layout_marginTop="10dp"
+        android:text="Urutkan berdasarkan :"
+        android:id="@+id/addedKet2_fms"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addedKet2_fms"
+        android:background="@drawable/round_spinner"
+        android:padding="10dp"
+        android:id="@+id/spUrutkan" />
+
+</RelativeLayout>

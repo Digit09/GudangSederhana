@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "816246246926",
-    "firebase_url": "https://kios-pamor-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "kios-pamor",
-    "storage_bucket": "kios-pamor.appspot.com"
+    "project_number": "215884599078",
+    "firebase_url": "https://gudang-sederhana-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "gudang-sederhana",
+    "storage_bucket": "gudang-sederhana.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:816246246926:android:75b4272efc4b652b69b65f",
+        "mobilesdk_app_id": "1:215884599078:android:8f56ece83f747c60bf3be7",
         "android_client_info": {
-          "package_name": "com.example.kiospamor"
+          "package_name": "com.example.gudangsederhana"
         }
       },
       "oauth_client": [
         {
-          "client_id": "816246246926-tgdu6s2tkanok97lc6qacqojrdi2hlr3.apps.googleusercontent.com",
+          "client_id": "215884599078-9num6gip13kn4c0tn9re5du92j07o9bp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gudangsederhana",
+            "certificate_hash": "9b59df22a5791fb571e07d477a541bd628716156"
+          }
+        },
+        {
+          "client_id": "215884599078-ptncgcg2a536nqoe22beflth2fjpk2hf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDHxP8BXb2df_LYafopk4XFm_Auy9E9o5w"
+          "current_key": "AIzaSyBMLb-RhxFvG8w7r-DmeQ9mYcaNKfGICJQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "816246246926-tgdu6s2tkanok97lc6qacqojrdi2hlr3.apps.googleusercontent.com",
+              "client_id": "215884599078-ptncgcg2a536nqoe22beflth2fjpk2hf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

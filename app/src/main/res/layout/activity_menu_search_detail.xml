@@ -7,14 +7,14 @@
     tools:context=".MenuSearchDetail">
 
     <include
-        layout="@layout/toolbar_form_layout_submenu"
-        android:id="@+id/toolbar_submenu" />
+        layout="@layout/toolbar_form_layout"
+        android:id="@+id/toolbar" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        android:layout_below="@id/toolbar_submenu"
+        android:layout_below="@id/toolbar"
         android:id="@+id/rlRead" >
 
         <TextView
@@ -173,12 +173,46 @@
                     android:textSize="16sp"
                     android:id="@+id/tvModal" />
             </RelativeLayout>
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:paddingHorizontal="37dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rlModal"
+                android:id="@+id/rlKategori" >
+                <TextView
+                    android:layout_width="112dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="18dp"
+                    android:text="Kategori"
+                    android:maxLines="4"
+                    android:singleLine="false"
+                    android:textSize="16sp"
+                    android:id="@+id/addedKategori" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/addedKategori"
+                    android:text=":"
+                    android:paddingEnd="10dp"
+                    android:textSize="16sp"
+                    android:paddingTop="18dp"
+                    android:id="@+id/addedKategori1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="18dp"
+                    android:layout_toRightOf="@id/addedKategori1"
+                    android:text="tvKategori"
+                    android:maxLines="4"
+                    android:singleLine="false"
+                    android:textSize="16sp"
+                    android:id="@+id/tvKategori" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:paddingHorizontal="37dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rlKategori"
                 android:id="@+id/rlProdusen" >
                 <TextView
                     android:layout_width="112dp"

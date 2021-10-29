@@ -1,6 +1,7 @@
 package com.example.gudangsederhana;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,16 +9,20 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +41,8 @@ public class MenuCreate extends AppCompatActivity {
     private Toolbar toolbar;
     public static EditText getEdId;
     private EditText getEdNamaB, getEdHarga, getEdModal, getEdProdusen, getEdKedaluwarsa;
-    private Button btSimpan;
+    private Spinner getEdKategori;
+    private Button btSimpan, btClearExpired_mc, btClearKategori;
     private ProgressBar progressBar;
     private String auth;
 
@@ -49,9 +55,10 @@ public class MenuCreate extends AppCompatActivity {
         TextView judulMenuC = findViewById(R.id.judulMenu);
         judulMenuC.setText("Tambah Barang");
 
-        toolbar = findViewById(R.id.toolbar_submenu);
         btSimpan = findViewById(R.id.btSimpan);
-
+        btClearExpired_mc = findViewById(R.id.btClearExpired_mc);
+        btClearKategori = findViewById(R.id.btClearKategori);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getEdId = findViewById(R.id.edId);
@@ -66,6 +73,7 @@ public class MenuCreate extends AppCompatActivity {
         getEdNamaB = findViewById(R.id.edNamaB);
         getEdHarga = findViewById(R.id.edHarga);
         getEdModal = findViewById(R.id.edModal);
+        getEdKategori = findViewById(R.id.edKategori);
         getEdProdusen = findViewById(R.id.edProdusen);
         getEdKedaluwarsa = findViewById(R.id.edKedaluwarsa);
 
@@ -74,6 +82,7 @@ public class MenuCreate extends AppCompatActivity {
         progressBar = findViewById(R.id.progressbarCreate);
 
         dateSettings();
+        kategoriAdapter();
 
         if (intent.hasExtra("btAdd")) {
             getEdId.setEnabled(true);
@@ -89,23 +98,56 @@ public class MenuCreate extends AppCompatActivity {
                 createData();
             }
         });
+
+        btClearExpired_mc.setOnClickListener(v -> {
+            getEdKedaluwarsa.getText().clear();
+        });
+        btClearKategori.setOnClickListener(v -> {
+            getEdKategori.setSelection(0);
+        });
     }
 
     public static class Create {
-        public String id, name, price, fund, producer, expired;
+        public String id, name, price, fund, category, producer, expired;
 
         public Create(){
 
         }
 
-        public Create(String id, String name, String price, String fund, String producer, String expired){
+        public Create(String id, String name, String price, String fund, String category, String producer, String expired){
             this.id = id;
             this.name = name;
             this.price = price;
             this.fund = fund;
+            this.category = category;
             this.producer = producer;
             this.expired = expired;
         }
+    }
+
+    private void kategoriAdapter(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MenuCreate.this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.category)){
+            @Override
+            public boolean isEnabled(int position) {
+                if (position==0){
+                    return false;
+                }
+                return true;
+            }
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) v;
+                if (position==0){
+                    tv.setTextColor(Color.GRAY);
+                }
+                return v;
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        getEdKategori.setAdapter(adapter);
     }
 
     private void createData() {
@@ -113,6 +155,7 @@ public class MenuCreate extends AppCompatActivity {
         String nama = MainActivity.capitalizeEachWord(getEdNamaB.getText().toString().trim());
         String harga = MainActivity.capitalizeEachWord(getEdHarga.getText().toString().trim());
         String modal = MainActivity.capitalizeEachWord(getEdModal.getText().toString().trim());
+        String kategori = MainActivity.capitalizeEachWord(getEdKategori.getSelectedItem().toString().trim());
         String produsen = MainActivity.capitalizeEachWord(getEdProdusen.getText().toString().trim());
         String kedaluwarsa = MainActivity.capitalizeEachWord(getEdKedaluwarsa.getText().toString().trim());
 
@@ -128,6 +171,9 @@ public class MenuCreate extends AppCompatActivity {
             getEdHarga.setError("Harga Barang harus diisi..");
             getEdHarga.requestFocus();
         }
+        else if (kategori.equals("-- Pilih Kategori --")) {
+            Toast.makeText(MenuCreate.this, "Kategori Barang harus dipilih..", Toast.LENGTH_LONG).show();
+        }
         else {
             if (modal.isEmpty()) {
                 modal = "-";
@@ -139,7 +185,7 @@ public class MenuCreate extends AppCompatActivity {
                 kedaluwarsa = "-";
             }
             progressBar.setVisibility(View.VISIBLE);
-            Create create = new Create(id, nama, harga, modal, produsen, kedaluwarsa);
+            Create create = new Create(id, nama, harga, modal, kategori, produsen, kedaluwarsa);
 
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(id);
             ref.setValue(create).addOnCompleteListener(new OnCompleteListener<Void>() {

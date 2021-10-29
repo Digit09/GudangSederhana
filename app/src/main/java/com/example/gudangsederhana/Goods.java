@@ -6,6 +6,7 @@ public class Goods {
     public String name;
     public String producer;
     public String price;
+    public String category;
 
     public void Goods(){
 
@@ -25,5 +26,9 @@ public class Goods {
 
     public String getPrice() {
         return price;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }

@@ -25,6 +25,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
     Context context;
     ArrayList<Goods> list;
     SpannableString str;
+    Integer lengthSS = 0, hargaC = 0;
     ForegroundColorSpan greenC = new ForegroundColorSpan(Color.GREEN);
 
     public GoodsAdapter(Context context, ArrayList<Goods> list) {
@@ -45,14 +46,46 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
         holder.id = goods.getId();
         if (MenuSearch.lengthStrSearch > 0) {
             // Change Substring Color
-            str = new SpannableString(goods.getName());
-            str.setSpan(greenC, 0, MenuSearch.lengthStrSearch, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            holder.nama.setText(str);
+            if (MenuSearch.filter.equalsIgnoreCase("nama")){
+                str = new SpannableString(goods.getName());
+                str.setSpan(greenC, 0, MenuSearch.lengthStrSearch, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                holder.nama.setText(str);
+                holder.produsen.setText(goods.getProducer());
+                holder.harga.setText(MainActivity.rupiahkan(goods.getPrice()));
+            } else if (MenuSearch.filter.equalsIgnoreCase("harga")){
+                str = new SpannableString(MainActivity.rupiahkan(goods.getPrice()));
+                String str2 = str.toString();
+                if (lengthSS < MenuSearch.lengthStrSearch) {
+                    if (str2.substring(3+hargaC+MenuSearch.lengthStrSearch, 4+hargaC+MenuSearch.lengthStrSearch).equals(".")) {
+                        hargaC++;
+                    }
+                    lengthSS++;
+                } else {
+                    if (str2.substring(3+hargaC+MenuSearch.lengthStrSearch, 4+hargaC+MenuSearch.lengthStrSearch).equals(".")) {
+                        hargaC--;
+                    }
+                    lengthSS--;
+                }
+                str.setSpan(greenC, 4, 4+hargaC+MenuSearch.lengthStrSearch, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                holder.nama.setText(goods.getName());
+                holder.produsen.setText(goods.getProducer());
+                holder.harga.setText(str);
+            } else if (MenuSearch.filter.equalsIgnoreCase("produsen")){
+                str = new SpannableString(goods.getProducer());
+                str.setSpan(greenC, 0, MenuSearch.lengthStrSearch, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                holder.nama.setText(goods.getName());
+                holder.produsen.setText(str);
+                holder.harga.setText(MainActivity.rupiahkan(goods.getPrice()));
+            } else {
+                holder.nama.setText(goods.getName());
+                holder.produsen.setText(goods.getProducer());
+                holder.harga.setText(MainActivity.rupiahkan(goods.getPrice()));
+            }
         } else {
             holder.nama.setText(goods.getName());
+            holder.produsen.setText(goods.getProducer());
+            holder.harga.setText(MainActivity.rupiahkan(goods.getPrice()));
         }
-        holder.produsen.setText(goods.getProducer());
-        holder.harga.setText(MainActivity.rupiahkan(goods.getPrice()));
         holder.rlItem.setOnClickListener(v -> {
             //InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             //imm.hideSoftInputFromWindow(holder.edSearch.getWindowToken(), 0);

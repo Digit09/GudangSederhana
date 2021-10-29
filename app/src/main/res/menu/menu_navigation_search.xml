@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/btnFilter"
+        android:title="Menyaring pencarian"
+        android:icon="@drawable/ic_baseline_filter_alt_24"
+        app:showAsAction="always">
+    </item>
+    <item
         android:id="@+id/btnBack"
         android:title="Kembali"
         android:icon="@drawable/ic_baseline_arrow_back_24"

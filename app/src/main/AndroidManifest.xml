@@ -13,8 +13,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.KiosPamor">
-        <activity android:name=".settings.MenuSettingsProfil"></activity>
+        android:theme="@style/Theme.GudangSederhana">
+        <activity android:name=".settings.MenuSettingsProfile" />
         <activity android:name=".MenuSearchDetail" />
         <activity android:name=".MenuSearch" />
         <activity android:name=".SplashScreen">

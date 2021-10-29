@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -24,12 +25,16 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +45,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -54,22 +60,23 @@ import java.util.ArrayList;
 public class MenuSearch extends AppCompatActivity {
 
     public static Integer lengthStrSearch = 0;
+    public static String filter, sortir;
+    private Integer indexFilter = 1, indexSortir = 1;
     private Toolbar toolbar;
     private EditText edSearch;
-    private CardView toolbarSearch;
     private RecyclerView recyclerView;
-    private TextView tvKetRV, judulMenuC;
+    private TextView tvKetRV, judulMenuC, tvTotalB, tvFilterB;
     private ProgressBar progressBar;
     private Button btShow_ms, btShare, btSaveDocx;
     private SharedPreferences shopNameSaved;
     private String loadName;
 
     private String auth;
-    private DatabaseReference database;
+    private Query database;
     private GoodsAdapter goodsAdapter;
     private ArrayList<Goods> list;
-    private ArrayList<Goods>  myList;
-    private File filePath = null;
+    private ArrayList<Goods> myList;
+    private File filePath = null, folder = null;
     private InputMethodManager imm;
 
     @Override
@@ -77,15 +84,18 @@ public class MenuSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_search);
 
-        toolbar = findViewById(R.id.toolbar_submenu);
-        setSupportActionBar(toolbar);
-
         judulMenuC = findViewById(R.id.judulMenu);
         judulMenuC.setText("Cari Barang");
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        tvTotalB = findViewById(R.id.tvTotalB);
+        filter = "Nama"; sortir = "Nama";
+
         auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
         recyclerView = findViewById(R.id.rvMainA);
-        database = FirebaseDatabase.getInstance().getReference("Goods").child(auth);
+        database = FirebaseDatabase.getInstance().getReference("Goods").child(auth).orderByChild(cekSortir(sortir));
         list = new ArrayList<>();
         myList = new ArrayList<>();
         goodsAdapter = new GoodsAdapter(this, list);
@@ -93,14 +103,18 @@ public class MenuSearch extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        toolbarSearch = findViewById(R.id.toolbarSearch);
         edSearch = findViewById(R.id.edSearch);
+        tvFilterB = findViewById(R.id.tvFilterB);
         tvKetRV = findViewById(R.id.tvKetRV);
         progressBar = findViewById(R.id.uploadProgress_ms);
         btShow_ms = findViewById(R.id.btShow_ms);
 
         shopNameSaved = getApplicationContext().getSharedPreferences("shopNameSaved", MODE_PRIVATE);
         loadName = shopNameSaved.getString(auth, "false");
+        tvFilterB.setText("Berdasarkan : " + filter);
+
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(edSearch, InputMethodManager.SHOW_IMPLICIT);
 
         itemAction();
     }
@@ -121,7 +135,7 @@ public class MenuSearch extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (!s.toString().isEmpty()){
                     lengthStrSearch = s.length();
-                    loadSearch(s.toString());
+                    loadSearch(s.toString(), filter);
                 } else {
                     lengthStrSearch = 0;
                     loadAllData();
@@ -129,6 +143,7 @@ public class MenuSearch extends AppCompatActivity {
             }
         });
         btShow_ms.setOnClickListener(v -> {
+            imm.hideSoftInputFromWindow(edSearch.getWindowToken(), 0);
             final View customLayout = getLayoutInflater().inflate(R.layout.alert_custom_layout_options_ms, null);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setView(customLayout);
@@ -173,8 +188,13 @@ public class MenuSearch extends AppCompatActivity {
             });
             AlertDialog dialog = builder.create();
             dialog.getWindow().setGravity(Gravity.BOTTOM);
-            dialog.getWindow().setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
             dialog.show();
+//            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+//            layoutParams.copyFrom(dialog.getWindow().getAttributes());
+//            layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+//            layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//            dialog.getWindow().setAttributes(layoutParams);
         });
     }
 
@@ -208,14 +228,15 @@ public class MenuSearch extends AppCompatActivity {
 
             xwpfRun.setText("Berikut data barang dari toko anda yang bernama " + loadName + " :");
             xwpfRun.addBreak(); xwpfRun.addBreak();
-            Integer i = 1;
+            Integer i = 0;
             for (Goods goods : list) {
+                i++;
                 xwpfRun.addTab(); xwpfRun.setText("Barang ke-" + i.toString()); xwpfRun.addBreak();
                 xwpfRun.addTab(); xwpfRun.setText("ID Barang : " + goods.getId()); xwpfRun.addBreak();
                 xwpfRun.addTab(); xwpfRun.setText("Nama Barang : " + goods.getName()); xwpfRun.addBreak();
                 xwpfRun.addTab(); xwpfRun.setText("Harga Barang : " + MainActivity.rupiahkan(goods.getPrice())); xwpfRun.addBreak(); xwpfRun.addBreak();
-                i++;
             }
+            xwpfRun.setText("Total barang : " + i.toString() + "."); xwpfRun.addBreak();
             xwpfRun.setText("Mohon data jangan disalahgunakan."); xwpfRun.addBreak();
             xwpfRun.setText("Developer Aplikasi : Digit Marsshal Assah | BanuaDev."); xwpfRun.addBreak();
             xwpfRun.setText("Kontak personal : +6285757044494.");
@@ -249,6 +270,7 @@ public class MenuSearch extends AppCompatActivity {
 
     private void loadAllData(){
         if (database != null) {
+            database = FirebaseDatabase.getInstance().getReference("Goods").child(auth).orderByChild(cekSortir(sortir));
             progressBar.setVisibility(View.VISIBLE);
             database.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -265,6 +287,10 @@ public class MenuSearch extends AppCompatActivity {
                         }
                         goodsAdapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
+
+                        Integer t = list.size();
+                        String total = t.toString();
+                        tvTotalB.setText("Total : " + total);
                     } else {
                         tvKetRV.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);
@@ -281,7 +307,7 @@ public class MenuSearch extends AppCompatActivity {
         }
     }
 
-    private void loadSearch(String data){
+    private void loadSearch(String data, String filter){
         progressBar.setVisibility(View.VISIBLE);
         if (!data.isEmpty()) {
             //Toast.makeText(MainActivity.this, d, Toast.LENGTH_SHORT).show();
@@ -314,17 +340,36 @@ public class MenuSearch extends AppCompatActivity {
 
             list.clear();
             for (Goods object : myList) {
-                if (object.getName().toLowerCase().startsWith(data.toLowerCase())) {
-                    list.add(object);
+                if (filter.equalsIgnoreCase("nama")) {
+                    if (object.getName().toLowerCase().startsWith(data.toLowerCase())) {
+                        list.add(object);
+                    }
+                } else if (filter.equalsIgnoreCase("harga")) {
+                    if (object.getPrice().toLowerCase().startsWith(data.toLowerCase())) {
+                        list.add(object);
+                    }
+                } else if (filter.equalsIgnoreCase("produsen")) {
+                    if (object.getProducer().toLowerCase().startsWith(data.toLowerCase())) {
+                        list.add(object);
+                    }
+                } else {
+                    if (object.getCategory().toLowerCase().startsWith(data.toLowerCase())) {
+                        list.add(object);
+                    }
                 }
             }
 
             if (!list.isEmpty()) {
                 tvKetRV.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
+
+                Integer t = list.size();
+                String total = t.toString();
+                tvTotalB.setText("Total : " + total + " yang cocok");
             } else {
                 tvKetRV.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);
+                tvTotalB.setText("Total : -");
             }
             goodsAdapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
@@ -337,33 +382,141 @@ public class MenuSearch extends AppCompatActivity {
     private String convertToTextWa(){
         String s = "*Aplikasi Gudang Sederhana Berbagi Data Barang*" + "\n\n" +
                 "Berikut data barang dari toko anda yang bernama " + loadName + " :\n\n";
-        for(Goods goods : list) {
+        Integer i = 0;
+        for (Goods goods : list) {
+            i++;
             s +=
                     "ID Barang : " + goods.getId() + "\n" +
                             "Nama Barang : " + goods.getName() + "\n" +
                             "Harga Barang : " + MainActivity.rupiahkan(goods.getPrice()) + "\n\n";
         }
+        s += "Total barang : " + i.toString() + ".\n";
         s += "Mohon data jangan disalahgunakan.\nDeveloper Aplikasi : Digit Marsshal Assah | BanuaDev.\nKontak personal : +6285757044494.";
         return s;
+    }
+
+    private String cekSortir(String str){
+        if (str.equalsIgnoreCase("nama")){
+            return "name";
+        } else if (str.equalsIgnoreCase("harga")){
+            return "price";
+        } if (str.equalsIgnoreCase("produsen")){
+            return "producer";
+        } else if (str.equalsIgnoreCase("kategori")){
+            return "category";
+        } else {
+            return str;
+        }
+    }
+
+    private void filterSearch(){
+        final View customLayout2 = getLayoutInflater().inflate(R.layout.alert_custom_layout_filter_ms, null);
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        builder2.setView(customLayout2);
+        builder2.setTitle("Filter Pencarian");
+
+        Spinner spinner = customLayout2.findViewById(R.id.spFilter);
+        Spinner spinner2 = customLayout2.findViewById(R.id.spUrutkan);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MenuSearch.this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.filter)){
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) v;
+                if (position == 0) {
+                    tv.setTextColor(Color.GRAY);
+                }
+                return v;
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(MenuSearch.this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.sortir)){
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) v;
+                if (position == 0) {
+                    tv.setTextColor(Color.GRAY);
+                }
+                return v;
+            }
+        };
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner2.setAdapter(adapter2);
+        spinner.setSelection(indexFilter);
+        spinner2.setSelection(indexSortir);
+
+        builder2.setPositiveButton("Atur ulang", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                indexFilter = spinner.getSelectedItemPosition();
+                filter = spinner.getSelectedItem().toString();
+                indexSortir = spinner2.getSelectedItemPosition();
+                sortir = spinner2.getSelectedItem().toString();
+                if (indexFilter > 3) {
+                    if (indexFilter.equals(4)) {
+                        edSearch.setText("Makanan");
+                    } else if (indexFilter.equals(5)) {
+                        edSearch.setText("Minuman");
+                    } else if (indexFilter.equals(6)) {
+                        edSearch.setText("Barang");
+                    }
+                    filter = "Kategori";
+                } else {
+                    edSearch.setText("");
+                }
+                tvFilterB.setText("Berdasarkan : " + MainActivity.capitalizeEachWord(filter));
+            }
+        });
+        builder2.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog1 = builder2.create();
+        dialog1.getWindow().setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        dialog1.show();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         edSearch.requestFocus();
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(edSearch, InputMethodManager.SHOW_IMPLICIT);
-        loadSearch(edSearch.getText().toString());
+        loadSearch(edSearch.getText().toString(), filter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_navigation, menu);
+        getMenuInflater().inflate(R.menu.menu_navigation_search, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.btnFilter){
+            filterSearch();
+        }
         switch (item.getItemId()) {
             case R.id.btnBack:
                 onBackPressed();

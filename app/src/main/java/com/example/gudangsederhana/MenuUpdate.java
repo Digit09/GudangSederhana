@@ -1,6 +1,7 @@
 package com.example.gudangsederhana;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,14 +9,18 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.AttributedCharacterIterator;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -38,8 +44,10 @@ import java.util.Objects;
 public class MenuUpdate extends AppCompatActivity {
 
     private EditText getEdId, getEdNamaB, getEdHarga, getEdModal, getEdProdusen, getEdKedaluwarsa;
-    private String vNamaB, vHarga, vModal, vProdusen, vKedaluwarsa;
+    private Spinner getEdKategori;
+    private String vNamaB, vHarga, vModal, vKategori, vProdusen, vKedaluwarsa;
     private ProgressBar progressBar;
+    private Button btUbah, btClearExpiredU, btClearKategoriU;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +57,10 @@ public class MenuUpdate extends AppCompatActivity {
         TextView judulMenuU = findViewById(R.id.judulMenu);
         judulMenuU.setText("Ubah Barang");
 
-        Toolbar toolbar = findViewById(R.id.toolbar_submenu);
-        Button btUbah = findViewById(R.id.btUbah);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        btUbah = findViewById(R.id.btUbah);
+        btClearExpiredU = findViewById(R.id.btClearExpiredU);
+        btClearKategoriU = findViewById(R.id.btClearKategoriU);
 
         setSupportActionBar(toolbar);
 
@@ -59,6 +69,7 @@ public class MenuUpdate extends AppCompatActivity {
         getEdNamaB = findViewById(R.id.edNamaBU);
         getEdHarga = findViewById(R.id.edHargaU);
         getEdModal = findViewById(R.id.edModalU);
+        getEdKategori = findViewById(R.id.edKategoriU);
         getEdProdusen = findViewById(R.id.edProdusenU);
         getEdKedaluwarsa = findViewById(R.id.edKedaluwarsaU);
 
@@ -78,6 +89,12 @@ public class MenuUpdate extends AppCompatActivity {
                 cekData(getEdId.getText().toString());
             }
         });
+        btClearExpiredU.setOnClickListener(v -> {
+            getEdKedaluwarsa.getText().clear();
+        });
+        btClearKategoriU.setOnClickListener(v -> {
+            getEdKategori.setSelection(0);
+        });
     }
 
     private void cekIntentUbah(){
@@ -94,23 +111,33 @@ public class MenuUpdate extends AppCompatActivity {
         if (getEdNamaB.getText().toString().trim().equals(vNamaB)) {
             if (getEdHarga.getText().toString().trim().equals(vHarga)) {
                 if (getEdModal.getText().toString().trim().equals(vModal)) {
-                    if (getEdProdusen.getText().toString().trim().equals(vProdusen)) {
-                        if (getEdKedaluwarsa.getText().toString().trim().equals(vKedaluwarsa)) {
-                            String teks = "Data barang belum ada yang diubah! Tekan tombol kembali jika ingin batal";
-                            Toast.makeText(MenuUpdate.this, teks, Toast.LENGTH_LONG).show();
+                    if (getEdKategori.getSelectedItem().toString().trim().equals(vKategori)) {
+                        if (getEdProdusen.getText().toString().trim().equals(vProdusen)) {
+                            if (getEdKedaluwarsa.getText().toString().trim().equals(vKedaluwarsa)) {
+                                String teks = "Data belum ada perubahan! Tekan tombol kembali jika ingin batal";
+                                Toast.makeText(MenuUpdate.this, teks, Toast.LENGTH_LONG).show();
+                            } else {
+                                //Toast.makeText(MenuUpdate.this, "expired", Toast.LENGTH_LONG).show();
+                                updateConfirm(id);
+                            }
                         } else {
+                            //Toast.makeText(MenuUpdate.this, "producer", Toast.LENGTH_LONG).show();
                             updateConfirm(id);
                         }
                     } else {
+                        //Toast.makeText(MenuUpdate.this, "fund", Toast.LENGTH_LONG).show();
                         updateConfirm(id);
                     }
                 } else {
+                    //Toast.makeText(MenuUpdate.this, "fund", Toast.LENGTH_LONG).show();
                     updateConfirm(id);
                 }
             } else {
+                //Toast.makeText(MenuUpdate.this, "price", Toast.LENGTH_LONG).show();
                 updateConfirm(id);
             }
         } else {
+            //Toast.makeText(MenuUpdate.this, "name", Toast.LENGTH_LONG).show();
             updateConfirm(id);
         }
     }
@@ -138,6 +165,7 @@ public class MenuUpdate extends AppCompatActivity {
         String nama = MainActivity.capitalizeEachWord(getEdNamaB.getText().toString().trim());
         String harga = MainActivity.capitalizeEachWord(getEdHarga.getText().toString().trim());
         String modal = MainActivity.capitalizeEachWord(getEdModal.getText().toString().trim());
+        String kategori = MainActivity.capitalizeEachWord(getEdKategori.getSelectedItem().toString().trim());
         String produsen = MainActivity.capitalizeEachWord(getEdProdusen.getText().toString().trim());
         String kedaluwarsa = MainActivity.capitalizeEachWord(getEdKedaluwarsa.getText().toString().trim());
 
@@ -148,6 +176,9 @@ public class MenuUpdate extends AppCompatActivity {
         else if (harga.isEmpty()) {
             getEdHarga.setError("Harga Barang harus diisi..");
             getEdHarga.requestFocus();
+        }
+        else if (kategori.equals("-- Pilih Kategori --")) {
+            Toast.makeText(MenuUpdate.this, "Kategori Barang harus dipilih..", Toast.LENGTH_LONG).show();
         }
         else {
             if (modal.isEmpty()) {
@@ -164,6 +195,7 @@ public class MenuUpdate extends AppCompatActivity {
             map.put("name", nama);
             map.put("price", harga);
             map.put("fund", modal);
+            map.put("category", kategori);
             map.put("producer", produsen);
             map.put("expired", kedaluwarsa);
 
@@ -194,20 +226,50 @@ public class MenuUpdate extends AppCompatActivity {
                 vNamaB = snapshot.child("name").getValue().toString();
                 vHarga = snapshot.child("price").getValue().toString();
                 vModal = snapshot.child("fund").getValue().toString();
+                vKategori = snapshot.child("category").getValue().toString();
                 vProdusen = snapshot.child("producer").getValue().toString();
                 vKedaluwarsa = snapshot.child("expired").getValue().toString();
 
                 getEdId.setText(id);
                 getEdNamaB.setText(vNamaB);
                 getEdHarga.setText(vHarga);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MenuUpdate.this,
+                        android.R.layout.simple_spinner_item,
+                        getResources().getStringArray(R.array.category)){
+                    @Override
+                    public boolean isEnabled(int position) {
+                        if (position==0){
+                            return false;
+                        }
+                        return true;
+                    }
+                    @Override
+                    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        View v = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) v;
+                        if (position==0){
+                            tv.setTextColor(Color.GRAY);
+                        }
+                        return v;
+                    }
+                };
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                getEdKategori.setAdapter(adapter);
+                getEdKategori.setSelection(selectCategory(vKategori));
                 if (!vModal.equals("-")){
                     getEdModal.setText(vModal);
+                } else {
+                    vModal = "";
                 }
                 if (!vProdusen.equals("-")) {
                     getEdProdusen.setText(vProdusen);
+                } else {
+                    vProdusen = "";
                 }
                 if (!vKedaluwarsa.equals("-")){
                     getEdKedaluwarsa.setText(vKedaluwarsa);
+                } else {
+                    vKedaluwarsa = "";
                 }
             }
 
@@ -216,6 +278,18 @@ public class MenuUpdate extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Gagal mengambil data", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private Integer selectCategory(String str){
+        if (str.equalsIgnoreCase("barang")){
+            return 1;
+        } else if (str.equalsIgnoreCase("makanan")){
+            return 2;
+        } else if (str.equalsIgnoreCase("minuman")){
+            return 3;
+        } else {
+            return 0;
+        }
     }
 
     private void dateSettings(){

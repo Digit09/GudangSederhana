@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menunav"
-        android:title="Main Menu"
+        android:title="Opsi Menu"
         android:icon="@drawable/ic_baseline_more_vert_24"
         app:showAsAction="always">
         <menu>

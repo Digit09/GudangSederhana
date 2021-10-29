@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,7 @@ public class MenuSearchDetail extends AppCompatActivity {
 
     Toolbar toolbar;
     RelativeLayout rlDataShow;
-    TextView tvResult, tvNama, tvHarga, tvModal, tvProdusen, tvKedaluwarsa, judulMenuC;
+    TextView tvResult, tvNama, tvHarga, tvModal, tvKategori, tvProdusen, tvKedaluwarsa, judulMenuC;
     Button updateBtn, deleteBtn, showBtn, hideBtn;
     String getResult = "0";
 
@@ -39,7 +40,7 @@ public class MenuSearchDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_search_detail);
 
-        toolbar = findViewById(R.id.toolbar_submenu);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         judulMenuC = findViewById(R.id.judulMenu);
@@ -54,6 +55,7 @@ public class MenuSearchDetail extends AppCompatActivity {
         tvNama = findViewById(R.id.tvNama);
         tvHarga = findViewById(R.id.tvHarga);
         tvModal = findViewById(R.id.tvModal);
+        tvKategori = findViewById(R.id.tvKategori);
         tvProdusen = findViewById(R.id.tvProdusen);
         tvKedaluwarsa = findViewById(R.id.tvKedaluwarsa);
         rlDataShow = findViewById(R.id.rlDataShow);
@@ -101,6 +103,7 @@ public class MenuSearchDetail extends AppCompatActivity {
                     String vName = snapshot.child("name").getValue().toString();
                     String vPrice = snapshot.child("price").getValue().toString();
                     String vFund = snapshot.child("fund").getValue().toString();
+                    String vCategory = snapshot.child("category").getValue().toString();
                     String vProducer = snapshot.child("producer").getValue().toString();
                     String vExpired = snapshot.child("expired").getValue().toString();
 
@@ -108,6 +111,7 @@ public class MenuSearchDetail extends AppCompatActivity {
                     tvNama.setText(vName);
                     tvHarga.setText(rupiahkan(vPrice));
                     tvModal.setText(rupiahkan(vFund));
+                    tvKategori.setText(vCategory);
                     tvProdusen.setText(vProducer);
                     tvKedaluwarsa.setText(vExpired);
 

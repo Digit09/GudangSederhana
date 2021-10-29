@@ -7,13 +7,13 @@
     tools:context=".MenuInitialSetup">
 
     <include
-        layout="@layout/toolbar_form_layout_initial_setup"
-        android:id="@+id/toolbar_pengaturanAwal" />
+        layout="@layout/toolbar_form_layout"
+        android:id="@+id/toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_pengaturanAwal" >
+        android:layout_below="@id/toolbar" >
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,7 +36,10 @@ public class MenuInitialSetup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_initial_setup);
 
-        toolbar = findViewById(R.id.toolbar_pengaturanAwal);
+        TextView judulMenuC = findViewById(R.id.judulMenu);
+        judulMenuC.setText("Gudang Sederhana");
+
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         btSimpan = findViewById(R.id.btSimpan);

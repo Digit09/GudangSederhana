@@ -7,25 +7,25 @@
     tools:context=".MenuSearch">
 
     <include
-        layout="@layout/toolbar_form_layout_submenu"
-        android:id="@+id/toolbar_submenu" />
+        layout="@layout/toolbar_form_layout"
+        android:id="@+id/toolbar" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="35dp"
-        app:cardElevation="4dp"
+        app:cardElevation="2dp"
         app:cardUseCompatPadding="true"
-        android:layout_below="@id/toolbar_submenu"
+        android:layout_below="@id/toolbar"
         android:id="@+id/toolbarSearch" >
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:textSize="16sp"
-            android:hint="Cari nama barang.."
-            android:padding="12dp"
-            android:drawablePadding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textSize="15sp"
+            android:hint="Cari barang.."
+            android:padding="9dp"
+            android:drawablePadding="8dp"
             android:background="@drawable/round_border"
             android:drawableStart="@drawable/ic_baseline_search_24"
             android:inputType="text"
@@ -35,12 +35,44 @@
             android:id="@+id/edSearch" />
     </androidx.cardview.widget.CardView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbarSearch"
+        android:orientation="horizontal"
+        android:id="@+id/llKet_ms" >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="13dp"
+            android:textAlignment="textStart"
+            android:text="Berdasarkan : nama"
+            android:textSize="13sp"
+            android:id="@+id/tvFilterB" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#C62828"
+            android:textSize="13sp"
+            android:text="|"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="13dp"
+            android:textAlignment="textEnd"
+            android:text="Total : memuat ..."
+            android:textSize="13sp"
+            android:id="@+id/tvTotalB" />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
         tools:listitem="@layout/recyclerview_main_item"
-        android:layout_below="@id/toolbarSearch"
+        android:layout_below="@id/llKet_ms"
         android:id="@+id/rvMainA" />
 
     <ProgressBar
