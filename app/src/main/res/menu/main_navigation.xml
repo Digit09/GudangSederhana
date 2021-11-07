@@ -11,6 +11,11 @@
         android:icon="@drawable/ic_baseline_more_vert_24"
         app:showAsAction="always">
         <menu>
+            <item android:id="@+id/cashier"
+                android:title="Kasir"
+                android:icon="@drawable/ic_baseline_payment_24"
+                app:showAsAction="never"
+                />
             <item android:id="@+id/settings"
                 android:title="Setelan"
                 android:icon="@drawable/ic_baseline_settings_24"

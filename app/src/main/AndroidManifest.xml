@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GudangSederhana">
+        <activity android:name=".MenuCashier"></activity>
         <activity android:name=".settings.MenuSettingsProfile" />
         <activity android:name=".MenuSearchDetail" />
         <activity android:name=".MenuSearch" />

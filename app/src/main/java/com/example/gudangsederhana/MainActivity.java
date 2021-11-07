@@ -377,6 +377,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MenuSearch.class);
             intent.putExtra("shopName", judulMenuC.getText().toString());
             startActivity(intent);
+        } else if (item.getItemId() == R.id.cashier) {
+            Intent intent = new Intent(MainActivity.this, MenuCashier.class);
+            startActivity(intent);
         } else if (item.getItemId() == R.id.settings) {
             Intent intent = new Intent(MainActivity.this, MenuSettings.class);
             startActivity(intent);

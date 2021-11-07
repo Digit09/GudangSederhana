@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.gudangsederhana"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 30
         multiDexEnabled true
         versionCode 1
