@@ -32,7 +32,7 @@ public class Login extends AppCompatActivity {
     Button bMasuk;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
-
+    // Stefan Ketek
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
