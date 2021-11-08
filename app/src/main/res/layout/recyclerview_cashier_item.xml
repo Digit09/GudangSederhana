@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingHorizontal="10dp"
+    android:id="@+id/rlItem_ci" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:text="Nama barang"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:id="@+id/tvNamaBarang_ci" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNamaBarang_ci"
+        android:drawablePadding="7dp"
+        android:text="ID barang"
+        android:textSize="15sp"
+        android:drawableStart="@drawable/ic_baseline_vpn_key_24"
+        android:id="@+id/tvIdBarang_item" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvIdBarang_item"
+        android:drawablePadding="7dp"
+        android:text="Kedaluwarsa"
+        android:textSize="15sp"
+        android:drawableStart="@drawable/ic_baseline_hourglass_top_24"
+        android:id="@+id/tvKedaluwarsa_item" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/tvKedaluwarsa_item"
+        android:id="@+id/llCount">
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="0.7"
+            android:layout_height="wrap_content"
+            android:drawablePadding="7dp"
+            android:text="Harga"
+            android:textSize="15sp"
+            android:drawableStart="@drawable/ic_baseline_attach_money_24"
+            android:id="@+id/tvHarga_item" />
+        <Button
+            android:layout_width="0dip"
+            android:layout_height="25dp"
+            android:layout_weight="0.08"
+            android:textColor="@color/white"
+            android:hint="Tambah Jumlah"
+            android:textSize="15sp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="#c62828"
+            android:text="-"
+            android:id="@+id/bDecr" />
+        <EditText
+            android:layout_width="0dip"
+            android:layout_weight="0.13"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginHorizontal="5dp"
+            android:textSize="15sp"
+            android:maxLength="3"
+            android:hint="XX"
+            android:padding="4dp"
+            android:drawablePadding="10dp"
+            android:lines="1"
+            android:background="@drawable/round_border"
+            android:drawableTint="#c62828"
+            android:inputType="number"
+            android:id="@+id/edCount_item" />
+        <Button
+            android:layout_width="0dip"
+            android:layout_height="25dp"
+            android:layout_weight="0.08"
+            android:textColor="@color/white"
+            android:hint="Tambah Jumlah"
+            android:textSize="15sp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="#c62828"
+            android:text="+"
+            android:id="@+id/bIncr" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginVertical="5dp"
+        android:layout_below="@id/llCount"
+        android:background="#5e5e5e"
+        android:id="@+id/separator1" />
+
+</RelativeLayout>

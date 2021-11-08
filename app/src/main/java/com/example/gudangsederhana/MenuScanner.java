@@ -16,6 +16,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class MenuScanner extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     ZXingScannerView scannerView;
+    private String getMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +29,21 @@ public class MenuScanner extends AppCompatActivity implements ZXingScannerView.R
 
         scannerView = new ZXingScannerView(this);
         setContentView(scannerView);
+
+        Intent intent = getIntent();
+        if (intent.hasExtra("sMenu")) {
+            getMenu = intent.getStringExtra("sMenu");
+        }
     }
 
     @Override
     public void handleResult(Result result) {
-        Intent intent = new Intent(MenuScanner.this, MainActivity.class);
+        Intent intent;
+        if (getMenu.equals("Cashier")){
+            intent = new Intent(MenuScanner.this, MenuCashier.class);
+        } else {
+            intent = new Intent(MenuScanner.this, MainActivity.class);
+        }
         intent.putExtra("result", result.getText());
         startActivity(intent);
         finish();
@@ -54,7 +65,13 @@ public class MenuScanner extends AppCompatActivity implements ZXingScannerView.R
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        Intent intent;
+        if (getMenu.equals("Cashier")){
+            intent = new Intent(getApplicationContext(), MenuCashier.class);
+        } else {
+            intent = new Intent(getApplicationContext(), MainActivity.class);
+        }
+        startActivity(intent);
         finish();
     }
 }

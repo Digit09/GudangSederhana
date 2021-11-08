@@ -7,6 +7,8 @@ public class Goods {
     public String producer;
     public String price;
     public String category;
+    public String expired;
+    public String count;
 
     public void Goods(){
 
@@ -30,5 +32,13 @@ public class Goods {
 
     public String getCategory() {
         return category;
+    }
+
+    public String getExpired() {
+        return expired;
+    }
+
+    public String getCount() {
+        return count;
     }
 }

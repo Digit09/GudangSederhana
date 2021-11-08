@@ -101,7 +101,9 @@ public class MainActivity extends AppCompatActivity {
         scannerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MenuScanner.class));
+                Intent intent = new Intent(getApplicationContext(), MenuScanner.class);
+                intent.putExtra("sMenu", "Main");
+                startActivity(intent);
                 finish();
             }
         });

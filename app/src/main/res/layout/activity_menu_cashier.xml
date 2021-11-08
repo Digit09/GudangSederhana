@@ -23,62 +23,104 @@
             android:layout_centerInParent="true"
             android:layout_marginHorizontal="10dp"
             android:textSize="15sp"
-            android:text="Kurangi stok"
-            />
+            android:text="Kurangi stok" />
         <androidx.appcompat.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:id="@+id/scStok"/>
+            android:id="@+id/scStok" />
     </RelativeLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="520dp"
-        android:visibility="visible"
-        tools:listitem="@layout/recyclerview_main_item"
-        android:layout_below="@id/rlSwitchCompat"
-        android:id="@+id/rvMainA" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="15dp"
-        android:paddingHorizontal="5dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/llAkun_ms">
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="43dp"
-            android:layout_weight="0.17"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_baseline_attach_money_24" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/rlSwitchCompat"
+        android:id="@+id/llBarang">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="0.75"
+            android:visibility="gone"
+            tools:listitem="@layout/recyclerview_cashier_item"
+            android:id="@+id/rvBarang_mc" />
         <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.83" >
-            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="0.1"
+            android:visibility="gone"
+            android:id="@+id/rlOpsiKasir">
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginHorizontal="5dp"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:text="Mengatur ulang"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/white"
+                android:background="@drawable/round_button"
+                android:backgroundTint="#c62828"
+                android:id="@+id/btReset" />
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginHorizontal="5dp"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:text="Tambah ke penghasilan"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/white"
+                android:background="@drawable/round_button"
+                android:backgroundTint="#c62828"
+                android:layout_toRightOf="@id/btReset"
+                android:id="@+id/btIncome" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="0.15"
+            android:id="@+id/rlBarang">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="Total"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:id="@+id/tvAdded_Total" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="Rp. 100.000"
-                android:textSize="20sp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:layout_below="@id/tvAdded_Total"
-                android:id="@+id/tv_Total" />
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="5dp">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="58dp"
+                    android:layout_weight="0.17"
+                    android:src="@drawable/ic_baseline_attach_money_24" />
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.83" >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="Total"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:id="@+id/tvAdded_Total" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Rp. 100.000"
+                        android:textSize="20sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:layout_below="@id/tvAdded_Total"
+                        android:id="@+id/tvTotal_mc" />
+                </RelativeLayout>
+            </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 
@@ -93,7 +135,7 @@
         android:textStyle="italic"
         android:textSize="17sp"
         android:visibility="visible"
-        android:id="@+id/tvKet" />
+        android:id="@+id/tvKet_mc" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -102,19 +144,19 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:id="@+id/rlAllButton" >
+        android:id="@+id/rlAllButton_mc" >
         <Button
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:background="@drawable/button_manualadd"
             android:layout_marginBottom="15dp"
-            android:id="@+id/btManualAdd" />
+            android:id="@+id/btManualAdd_mc" />
         <Button
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:background="@drawable/button_camera"
-            android:layout_below="@id/btManualAdd"
-            android:id="@+id/btScan" />
+            android:layout_below="@id/btManualAdd_mc"
+            android:id="@+id/btScan_mc" />
     </RelativeLayout>
 
 </RelativeLayout>
