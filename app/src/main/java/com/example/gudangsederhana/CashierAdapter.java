@@ -1,6 +1,7 @@
 package com.example.gudangsederhana;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -70,6 +71,19 @@ public class CashierAdapter extends RecyclerView.Adapter<CashierAdapter.MyViewHo
             String z = Integer.toString(y);
             holder.count.setText(z);
         });
+        holder.del.setOnClickListener(v -> {
+            //MenuCashier.total = Integer.parseInt(holder.harga.getText().toString()) * Integer.parseInt(holder.count.getText().toString());
+            String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(holder.id_barcode);
+            ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (!task.isSuccessful()){
+                        Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        });
         holder.count.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -123,9 +137,10 @@ public class CashierAdapter extends RecyclerView.Adapter<CashierAdapter.MyViewHo
                         Integer x2 = Integer.parseInt(ds.child("count").getValue().toString());
                         x3 = x3 + (x1 * x2);
                     }
+                    MenuCashier.total = x3;
                     MenuCashier.tvTotal.setText(MainActivity.rupiahkan(x3.toString()));
                 } else {
-                    Toast.makeText(context, "Transaksi masih kosong.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Transaksi kosong", Toast.LENGTH_SHORT).show();
                     MenuCashier.tvTotal.setText("Rp. -");
                 }
             }
@@ -147,7 +162,7 @@ public class CashierAdapter extends RecyclerView.Adapter<CashierAdapter.MyViewHo
         RelativeLayout rlItem;
         TextView nama, id, kedaluwarsa, harga;
         EditText count;
-        Button inc, dec;
+        Button inc, dec, del;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             id_barcode = null;
@@ -159,6 +174,7 @@ public class CashierAdapter extends RecyclerView.Adapter<CashierAdapter.MyViewHo
             count = itemView.findViewById(R.id.edCount_item);
             inc = itemView.findViewById(R.id.bIncr);
             dec = itemView.findViewById(R.id.bDecr);
+            del = itemView.findViewById(R.id.bDelete_ci);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.gudangsederhana;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,12 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,21 +32,28 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuCashier extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView judulMenuC;
-    private Button scannerBtn, resetBtn;
+    private Button scannerBtn, manualAddBtn, resetBtn, incomeBtn;
     private String getResult = "0";
-    private RecyclerView recyclerView;
-    private RelativeLayout rlOpsiKasir;
+    public static RecyclerView recyclerView;
+    public static RelativeLayout rlOpsiKasir;
     private CashierAdapter cashierAdapter;
-    private TextView tvKet;
+    public static TextView tvKet;
     public static TextView tvTotal;
+    public static Integer total = 0;
+    private Integer indexFilter = 1;
     private ArrayList<Goods> list;
 
     @Override
@@ -64,8 +78,10 @@ public class MenuCashier extends AppCompatActivity {
         tvKet = findViewById(R.id.tvKet_mc);
         tvTotal = findViewById(R.id.tvTotal_mc);
 
+        manualAddBtn = findViewById(R.id.btManualAdd_mc);
         scannerBtn = findViewById(R.id.btScan_mc);
         resetBtn = findViewById(R.id.btReset);
+        incomeBtn = findViewById(R.id.btIncome);
         scannerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,32 +91,88 @@ public class MenuCashier extends AppCompatActivity {
                 finish();
             }
         });
-        resetBtn.setOnClickListener(new View.OnClickListener() {
+        manualAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reset();
+                manualSearch();
             }
+        });
+        resetBtn.setOnClickListener(v ->  {
+            AlertDialog.Builder confirm = new AlertDialog.Builder(this);
+            confirm.setTitle("Mengatur Ulang");
+            confirm.setMessage("Apakah anda yakin ingin mengatur ulang?");
+            confirm.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    reset();
+                }
+            });
+            confirm.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            confirm.create().show();
+        });
+        incomeBtn.setOnClickListener(v -> {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-yyyy");
+            LocalDateTime now = LocalDateTime.now();
+            insertIncome(dtf.format(now));
         });
     }
 
     private void reset(){
+        String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Transactions").child(auth);
+        ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    rlOpsiKasir.setVisibility(View.GONE);
+                    Toast.makeText(MenuCashier.this, "Mengatur ulang...", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MenuCashier.this, "Gagal mengatur ulang", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void insertIncome(String date){
         AlertDialog.Builder confirm = new AlertDialog.Builder(this);
-        confirm.setTitle("Mengatur Ulang");
-        confirm.setMessage("Apakah anda yakin ingin mengatur ulang?");
+        confirm.setTitle("Tambah ke Pemasukan");
+        confirm.setMessage("Apakah anda yakin ingin menambahkan total transaksi ke pemasukan bulan ini?");
         confirm.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Transactions").child(auth);
-                ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Sales").child(auth).child(date);
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            rlOpsiKasir.setVisibility(View.GONE);
-                            Toast.makeText(MenuCashier.this, "Berhasil mengatur ulang", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(MenuCashier.this, "Gagal mengatur ulang", Toast.LENGTH_SHORT).show();
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            total = total + Integer.parseInt(snapshot.child("income").getValue().toString());
+                            Toast.makeText(getBaseContext(), total.toString(), Toast.LENGTH_SHORT).show();
                         }
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("date", date);
+                        map.put("income", total.toString());
+                        ref.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getBaseContext(), "Berhasil menambah pemasukan", Toast.LENGTH_SHORT).show();
+                                    reset();
+                                } else {
+                                    Toast.makeText(getBaseContext(), "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
                     }
                 });
             }
@@ -112,6 +184,53 @@ public class MenuCashier extends AppCompatActivity {
             }
         });
         confirm.create().show();
+    }
+
+    private void manualSearch(){
+        final View customLayout2 = getLayoutInflater().inflate(R.layout.alert_custom_layout_filter_mc, null);
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        builder2.setView(customLayout2);
+        builder2.setTitle("Cari Manual");
+
+        EditText edSearch = customLayout2.findViewById(R.id.edSearch_mc);
+        RecyclerView rvMS = customLayout2.findViewById(R.id.rvMenuCashier);
+
+        String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Query database = FirebaseDatabase.getInstance().getReference("Goods").child(auth);
+        ArrayList<Goods> alist = new ArrayList<>();
+        ManualAddAdapter manualAddAdapter = new ManualAddAdapter(this, alist);
+        rvMS.setAdapter(manualAddAdapter);
+        rvMS.setHasFixedSize(true);
+        rvMS.setLayoutManager(new LinearLayoutManager(this));
+
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    alist.clear();
+                    for (DataSnapshot ds : snapshot.getChildren()){
+                        Goods goods = ds.getValue(Goods.class);
+                        alist.add(goods);
+                    }
+                    manualAddAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MenuCashier.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder2.setNegativeButton("Kembali", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog1 = builder2.create();
+        dialog1.getWindow().setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        dialog1.show();
     }
 
     @Override

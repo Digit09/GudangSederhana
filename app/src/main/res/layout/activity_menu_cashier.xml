@@ -113,7 +113,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:text="Rp. 100.000"
+                        android:text="Rp. -"
                         android:textSize="20sp"
                         android:maxLines="2"
                         android:ellipsize="end"

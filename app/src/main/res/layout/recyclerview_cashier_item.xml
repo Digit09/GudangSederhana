@@ -5,19 +5,37 @@
     android:paddingHorizontal="10dp"
     android:id="@+id/rlItem_ci" >
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:text="Nama barang"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:id="@+id/tvNamaBarang_ci" />
+        android:orientation="horizontal"
+        android:id="@+id/llTop">
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:layout_marginBottom="3dp"
+            android:text="Nama barang"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:id="@+id/tvNamaBarang_ci" />
+        <Button
+            android:layout_width="0dip"
+            android:layout_height="25dp"
+            android:layout_weight="0.1"
+            android:textColor="@color/white"
+            android:hint="Hapus Item"
+            android:textSize="15sp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="#c62828"
+            android:text="x"
+            android:id="@+id/bDelete_ci" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvNamaBarang_ci"
+        android:layout_below="@id/llTop"
         android:drawablePadding="7dp"
         android:text="ID barang"
         android:textSize="15sp"

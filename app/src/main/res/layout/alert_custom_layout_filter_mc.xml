@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="20dp">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:hint="Cari barang.."
+        android:padding="7dp"
+        android:drawablePadding="8dp"
+        android:background="@drawable/round_border"
+        android:drawableStart="@drawable/ic_baseline_search_24"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        android:imeActionLabel="OK"
+        android:maxLines="1"
+        android:id="@+id/edSearch_mc" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="10dp"
+        android:visibility="visible"
+        tools:listitem="@layout/recyclerview_main_item"
+        android:layout_below="@id/edSearch_mc"
+        android:id="@+id/rvMenuCashier" />
+</RelativeLayout>
