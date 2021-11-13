@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,12 +13,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -26,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +41,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,15 +53,19 @@ public class MenuCashier extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView judulMenuC;
     private Button scannerBtn, manualAddBtn, resetBtn, incomeBtn;
+    private SwitchCompat switchCompat;
     private String getResult = "0";
+    public static String wordMC;
     public static RecyclerView recyclerView;
     public static RelativeLayout rlOpsiKasir;
     private CashierAdapter cashierAdapter;
     public static TextView tvKet;
     public static TextView tvTotal;
-    public static Integer total = 0;
-    private Integer indexFilter = 1;
+    public static Long total;
+    public static Integer wordMCL = 0;
     private ArrayList<Goods> list;
+    private ArrayList<Trans> listTemp;
+    private String auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +80,7 @@ public class MenuCashier extends AppCompatActivity {
         recyclerView = findViewById(R.id.rvBarang_mc);
         rlOpsiKasir = findViewById(R.id.rlOpsiKasir);
         list = new ArrayList<>();
+        listTemp = new ArrayList<>();
         cashierAdapter = new CashierAdapter(this, list);
         recyclerView.setAdapter(cashierAdapter);
         recyclerView.setHasFixedSize(true);
@@ -82,6 +94,10 @@ public class MenuCashier extends AppCompatActivity {
         scannerBtn = findViewById(R.id.btScan_mc);
         resetBtn = findViewById(R.id.btReset);
         incomeBtn = findViewById(R.id.btIncome);
+        switchCompat = findViewById(R.id.scStok);
+
+        auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         scannerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,12 +134,49 @@ public class MenuCashier extends AppCompatActivity {
         incomeBtn.setOnClickListener(v -> {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-yyyy");
             LocalDateTime now = LocalDateTime.now();
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Transactions").child(auth);
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        listTemp.clear();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            Trans trans1 = ds.getValue(Trans.class);
+                            listTemp.add(trans1);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
             insertIncome(dtf.format(now));
+        });
+        loadSettings();
+    }
+
+    private void loadSettings(){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Settings").child(auth);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    switchCompat.setChecked(Boolean.parseBoolean(snapshot.child("stockReduction").getValue().toString()));
+                } else {
+                    switchCompat.setChecked(true);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MenuCashier.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
     private void reset(){
-        String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Transactions").child(auth);
         ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -145,14 +198,13 @@ public class MenuCashier extends AppCompatActivity {
         confirm.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Sales").child(auth).child(date);
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()){
                             total = total + Integer.parseInt(snapshot.child("income").getValue().toString());
-                            Toast.makeText(getBaseContext(), total.toString(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getBaseContext(), total.toString(), Toast.LENGTH_SHORT).show();
                         }
                         Map<String, Object> map = new HashMap<>();
                         map.put("date", date);
@@ -161,8 +213,7 @@ public class MenuCashier extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getBaseContext(), "Berhasil menambah pemasukan", Toast.LENGTH_SHORT).show();
-                                    reset();
+                                    stockReduction();
                                 } else {
                                     Toast.makeText(getBaseContext(), "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
                                 }
@@ -186,6 +237,23 @@ public class MenuCashier extends AppCompatActivity {
         confirm.create().show();
     }
 
+    private void stockReduction(){
+        if (switchCompat.isChecked()) {
+            reset();
+            for (Trans object : listTemp) {
+                DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(object.getId());
+                Integer stok = Integer.parseInt(object.getStock());
+                Integer x = stok - Integer.parseInt(object.getCount());
+                Map<String, Object> map = new HashMap<>();
+                map.put("stock", x.toString());
+                ref2.updateChildren(map);
+            }
+            Toast.makeText(getBaseContext(), "Berhasil menambah pemasukan", Toast.LENGTH_SHORT).show();
+        } else {
+            reset();
+        }
+    }
+
     private void manualSearch(){
         final View customLayout2 = getLayoutInflater().inflate(R.layout.alert_custom_layout_filter_mc, null);
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
@@ -195,9 +263,9 @@ public class MenuCashier extends AppCompatActivity {
         EditText edSearch = customLayout2.findViewById(R.id.edSearch_mc);
         RecyclerView rvMS = customLayout2.findViewById(R.id.rvMenuCashier);
 
-        String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
         Query database = FirebaseDatabase.getInstance().getReference("Goods").child(auth);
         ArrayList<Goods> alist = new ArrayList<>();
+        ArrayList<Goods> blist = new ArrayList<>();
         ManualAddAdapter manualAddAdapter = new ManualAddAdapter(this, alist);
         rvMS.setAdapter(manualAddAdapter);
         rvMS.setHasFixedSize(true);
@@ -207,10 +275,10 @@ public class MenuCashier extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    alist.clear();
+                    alist.clear(); blist.clear();
                     for (DataSnapshot ds : snapshot.getChildren()){
                         Goods goods = ds.getValue(Goods.class);
-                        alist.add(goods);
+                        alist.add(goods); blist.add(goods);
                     }
                     manualAddAdapter.notifyDataSetChanged();
                 }
@@ -219,6 +287,54 @@ public class MenuCashier extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(MenuCashier.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                wordMCL = s.length();
+                if (!s.toString().isEmpty()){
+                    wordMC = s.toString().toLowerCase();
+                    alist.clear();
+                    for (Goods object : blist) {
+                        if (object.getName().toLowerCase().contains(s.toString().toLowerCase())) {
+                            alist.add(object);
+                        } else if (object.getId().toLowerCase().contains(s.toString().toLowerCase())) {
+                            alist.add(object);
+                        }
+                    }
+                    manualAddAdapter.notifyDataSetChanged();
+                } else {
+                    database.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()){
+                                alist.clear(); blist.clear();
+                                for (DataSnapshot ds : snapshot.getChildren()){
+                                    Goods goods = ds.getValue(Goods.class);
+                                    alist.add(goods); blist.add(goods);
+                                }
+                                manualAddAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(MenuCashier.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 
@@ -237,6 +353,27 @@ public class MenuCashier extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         cekIntentScanner();
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Settings").child(auth);
+                Map<String, Object> map = new HashMap<>();
+                map.put("stockReduction", isChecked);
+                ref.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (!task.isSuccessful()){
+                            Toast.makeText(MenuCashier.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                        }
+                        if (isChecked){
+                            Toast.makeText(MenuCashier.this, "Pengurangan Stok Aktif", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MenuCashier.this, "Pengurangan Stok Tidak Aktif", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void cekIntentScanner() {
@@ -250,9 +387,8 @@ public class MenuCashier extends AppCompatActivity {
     }
 
     private void tempTransaction(String result) {
-        String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(result);
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -266,8 +402,9 @@ public class MenuCashier extends AppCompatActivity {
                     String vCategory = snapshot.child("category").getValue().toString();
                     String vProducer = snapshot.child("producer").getValue().toString();
                     String vExpired = snapshot.child("expired").getValue().toString();
+                    String vStock = snapshot.child("stock").getValue().toString();
                     String vCount = "1";
-                    Trans trans = new Trans(vId, vName,vPrice, vFund, vCategory, vProducer, vExpired, vCount);
+                    Trans trans = new Trans(vId, vName,vPrice, vFund, vCategory, vProducer, vExpired, vCount, vStock);
 
                     DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(vId);
                     ref2.setValue(trans).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -300,7 +437,6 @@ public class MenuCashier extends AppCompatActivity {
     }
 
     public void loadData(){
-        String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Transactions").child(auth);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -335,13 +471,13 @@ public class MenuCashier extends AppCompatActivity {
     }
 
     public static class Trans {
-        public String id, name, price, fund, category, producer, expired, count;
+        public String id, name, price, fund, category, producer, expired, count, stock;
 
         public Trans(){
 
         }
 
-        public Trans(String id, String name, String price, String fund, String category, String producer, String expired, String count){
+        public Trans(String id, String name, String price, String fund, String category, String producer, String expired, String count, String stock){
             this.id = id;
             this.name = name;
             this.price = price;
@@ -350,6 +486,19 @@ public class MenuCashier extends AppCompatActivity {
             this.producer = producer;
             this.expired = expired;
             this.count = count;
+            this.stock = stock;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getCount() {
+            return count;
+        }
+
+        public String getStock() {
+            return stock;
         }
     }
 

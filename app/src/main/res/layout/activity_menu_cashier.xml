@@ -59,9 +59,8 @@
                 android:textAllCaps="false"
                 android:text="Mengatur ulang"
                 android:layout_alignParentBottom="true"
-                android:textColor="@color/white"
+                android:textColor="#c62828"
                 android:background="@drawable/round_button"
-                android:backgroundTint="#c62828"
                 android:id="@+id/btReset" />
             <Button
                 android:layout_width="120dp"

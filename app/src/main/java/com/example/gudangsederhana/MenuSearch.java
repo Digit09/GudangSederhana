@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.Menu;
@@ -59,8 +60,8 @@ import java.util.ArrayList;
 
 public class MenuSearch extends AppCompatActivity {
 
-    public static Integer lengthStrSearch = 0;
-    public static String filter, sortir;
+    public static Integer wordMSL = 0;
+    public static String filter, sortir, wordMS = "";
     private Integer indexFilter = 1, indexSortir = 1;
     private Toolbar toolbar;
     private EditText edSearch;
@@ -133,11 +134,11 @@ public class MenuSearch extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                wordMSL = s.length();
                 if (!s.toString().isEmpty()){
-                    lengthStrSearch = s.length();
+                    wordMS = s.toString().toLowerCase();
                     loadSearch(s.toString(), filter);
                 } else {
-                    lengthStrSearch = 0;
                     loadAllData();
                 }
             }
@@ -341,19 +342,19 @@ public class MenuSearch extends AppCompatActivity {
             list.clear();
             for (Goods object : myList) {
                 if (filter.equalsIgnoreCase("nama")) {
-                    if (object.getName().toLowerCase().startsWith(data.toLowerCase())) {
+                    if (object.getName().toLowerCase().contains(data.toLowerCase())) {
                         list.add(object);
                     }
                 } else if (filter.equalsIgnoreCase("harga")) {
-                    if (object.getPrice().toLowerCase().startsWith(data.toLowerCase())) {
+                    if (object.getPrice().toLowerCase().contains(data.toLowerCase())) {
                         list.add(object);
                     }
                 } else if (filter.equalsIgnoreCase("produsen")) {
-                    if (object.getProducer().toLowerCase().startsWith(data.toLowerCase())) {
+                    if (object.getProducer().toLowerCase().contains(data.toLowerCase())) {
                         list.add(object);
                     }
                 } else {
-                    if (object.getCategory().toLowerCase().startsWith(data.toLowerCase())) {
+                    if (object.getCategory().toLowerCase().contains(data.toLowerCase())) {
                         list.add(object);
                     }
                 }
@@ -482,7 +483,13 @@ public class MenuSearch extends AppCompatActivity {
                         edSearch.setText("Barang");
                     }
                     filter = "Kategori";
+                    edSearch.setInputType(InputType.TYPE_CLASS_TEXT);
                 } else {
+                    if (indexFilter.equals(2)) {
+                        edSearch.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    } else {
+                        edSearch.setInputType(InputType.TYPE_CLASS_TEXT);
+                    }
                     edSearch.setText("");
                 }
                 tvFilterB.setText("Berdasarkan : " + MainActivity.capitalizeEachWord(filter));

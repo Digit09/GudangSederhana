@@ -25,7 +25,6 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
     Context context;
     ArrayList<Goods> list;
     SpannableString str;
-    Integer lengthSS = 0, hargaC = 0;
     ForegroundColorSpan greenC = new ForegroundColorSpan(Color.GREEN);
 
     public GoodsAdapter(Context context, ArrayList<Goods> list) {
@@ -44,35 +43,42 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Goods goods = list.get(position);
         holder.id = goods.getId();
-        if (MenuSearch.lengthStrSearch > 0) {
+        if (MenuSearch.wordMSL > 0) {
             // Change Substring Color
             if (MenuSearch.filter.equalsIgnoreCase("nama")){
+                String mystr = goods.getName().toLowerCase();
+                String mystr2 = MenuSearch.wordMS.toLowerCase();
+                int start = mystr.indexOf(mystr2);
+                int end = start + MenuSearch.wordMS.length();
                 str = new SpannableString(goods.getName());
-                str.setSpan(greenC, 0, MenuSearch.lengthStrSearch, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(greenC, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.nama.setText(str);
                 holder.produsen.setText(goods.getProducer());
                 holder.harga.setText(MainActivity.rupiahkan(goods.getPrice()));
             } else if (MenuSearch.filter.equalsIgnoreCase("harga")){
-                str = new SpannableString(MainActivity.rupiahkan(goods.getPrice()));
-                String str2 = str.toString();
-                if (lengthSS < MenuSearch.lengthStrSearch) {
-                    if (str2.substring(3+hargaC+MenuSearch.lengthStrSearch, 4+hargaC+MenuSearch.lengthStrSearch).equals(".")) {
-                        hargaC++;
+                String mystr = goods.getPrice().toLowerCase();
+                String mystr2 = MenuSearch.wordMS.toLowerCase();
+                int start = 4+mystr.indexOf(mystr2);
+                int end = start + MenuSearch.wordMS.length();
+                String rp = MainActivity.rupiahkan(goods.getPrice());
+                Integer getPoint = 0;
+                for (int i = 0; i < MenuSearch.wordMS.length(); i++){
+                    if (rp.substring(start+i+getPoint,(start+1)+i+getPoint).equals(".")){
+                        getPoint = getPoint + 1;
                     }
-                    lengthSS++;
-                } else {
-                    if (str2.substring(3+hargaC+MenuSearch.lengthStrSearch, 4+hargaC+MenuSearch.lengthStrSearch).equals(".")) {
-                        hargaC--;
-                    }
-                    lengthSS--;
                 }
-                str.setSpan(greenC, 4, 4+hargaC+MenuSearch.lengthStrSearch, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str = new SpannableString(rp);
+                str.setSpan(greenC, start, end+getPoint, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.nama.setText(goods.getName());
                 holder.produsen.setText(goods.getProducer());
                 holder.harga.setText(str);
             } else if (MenuSearch.filter.equalsIgnoreCase("produsen")){
+                String mystr = goods.getProducer().toLowerCase();
+                String mystr2 = MenuSearch.wordMS.toLowerCase();
+                int start = mystr.indexOf(mystr2);
+                int end = start + MenuSearch.wordMS.length();
                 str = new SpannableString(goods.getProducer());
-                str.setSpan(greenC, 0, MenuSearch.lengthStrSearch, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                str.setSpan(greenC, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.nama.setText(goods.getName());
                 holder.produsen.setText(str);
                 holder.harga.setText(MainActivity.rupiahkan(goods.getPrice()));

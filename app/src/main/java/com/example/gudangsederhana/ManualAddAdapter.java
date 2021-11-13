@@ -3,8 +3,12 @@ package com.example.gudangsederhana;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +34,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ManualAddAdapter extends RecyclerView.Adapter<ManualAddAdapter.MyViewHolder> {
 
     Context context;
     ArrayList<Goods> list;
+    SpannableString str;
+    ForegroundColorSpan greenC = new ForegroundColorSpan(Color.GREEN);
 
     public ManualAddAdapter (Context context, ArrayList<Goods> list) {
         this.context = context;
@@ -52,7 +60,17 @@ public class ManualAddAdapter extends RecyclerView.Adapter<ManualAddAdapter.MyVi
     public void onBindViewHolder(@NonNull ManualAddAdapter.MyViewHolder holder, int position) {
         Goods goods = list.get(position);
         holder.id = goods.getId();
-        holder.nama.setText(goods.getName());
+        if (MenuCashier.wordMCL > 0) {
+            String mystr = goods.getName().toLowerCase();
+            String mystr2 = MenuCashier.wordMC.toLowerCase();
+            int start = mystr.indexOf(mystr2);
+            int end = start + MenuCashier.wordMC.length();
+            str = new SpannableString(goods.getName());
+            str.setSpan(greenC, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.nama.setText(str);
+        } else {
+            holder.nama.setText(goods.getName());
+        }
         holder.produsen.setText(goods.getProducer());
         holder.harga.setText(MainActivity.rupiahkan(goods.getPrice()));
         holder.rlItem.setOnClickListener(v -> {
@@ -98,7 +116,7 @@ public class ManualAddAdapter extends RecyclerView.Adapter<ManualAddAdapter.MyVi
     private void tempTransaction(String result) {
         String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(result);
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -112,8 +130,9 @@ public class ManualAddAdapter extends RecyclerView.Adapter<ManualAddAdapter.MyVi
                     String vCategory = snapshot.child("category").getValue().toString();
                     String vProducer = snapshot.child("producer").getValue().toString();
                     String vExpired = snapshot.child("expired").getValue().toString();
+                    String vStock = snapshot.child("stock").getValue().toString();
                     String vCount = "1";
-                    MenuCashier.Trans trans = new MenuCashier.Trans(vId, vName,vPrice, vFund, vCategory, vProducer, vExpired, vCount);
+                    MenuCashier.Trans trans = new MenuCashier.Trans(vId, vName,vPrice, vFund, vCategory, vProducer, vExpired, vCount, vStock);
 
                     DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(vId);
                     ref2.setValue(trans).addOnCompleteListener(new OnCompleteListener<Void>() {

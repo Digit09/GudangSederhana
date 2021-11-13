@@ -98,29 +98,55 @@ public class CashierAdapter extends RecyclerView.Adapter<CashierAdapter.MyViewHo
             @Override
             public void afterTextChanged(Editable s) {
                 if (!s.toString().isEmpty()){
-                    Integer x = Integer.parseInt(s.toString());
-                    if (x > 0){
-                        String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("count", s.toString());
-
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(holder.id_barcode);
-                        ref.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    hitung(context, auth);
-                                } else {
-                                    Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    } else {
+                    if (s.toString().startsWith("0")){
                         holder.count.setText("1");
+                    } else {
+                        Integer x = Integer.parseInt(s.toString());
+                        if (x > 0) {
+                            String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(holder.id_barcode);
+                            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        String stok = snapshot.child("stock").getValue().toString();
+                                        if (!s.toString().isEmpty()) {
+                                            if (Integer.parseInt(stok) >= Integer.parseInt(s.toString())) {
+                                                DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(holder.id_barcode);
+                                                Map<String, Object> map = new HashMap<>();
+                                                map.put("count", s.toString());
+                                                ref2.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            hitung(context, auth);
+                                                        } else {
+                                                            Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+                                            } else {
+                                                holder.count.setText(stok);
+                                            }
+                                        }
+                                    } else {
+                                        Toast.makeText(context, "Terjadi kesalahan dalam memnemukan data", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        } else {
+                            holder.count.setText("1");
+                        }
                     }
                 } else {
                     holder.count.setText("1");
                 }
+                holder.count.setSelection(holder.count.getText().length());
             }
         });
     }
@@ -131,16 +157,15 @@ public class CashierAdapter extends RecyclerView.Adapter<CashierAdapter.MyViewHo
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    Integer x3 = 0;
+                    Long x3 = Long.valueOf(0);
                     for (DataSnapshot ds : snapshot.getChildren()){
-                        Integer x1 = Integer.parseInt(ds.child("price").getValue().toString());
-                        Integer x2 = Integer.parseInt(ds.child("count").getValue().toString());
+                        Long x1 = Long.parseLong(ds.child("price").getValue().toString());
+                        Long x2 = Long.parseLong(ds.child("count").getValue().toString());
                         x3 = x3 + (x1 * x2);
                     }
                     MenuCashier.total = x3;
                     MenuCashier.tvTotal.setText(MainActivity.rupiahkan(x3.toString()));
                 } else {
-                    Toast.makeText(context, "Transaksi kosong", Toast.LENGTH_SHORT).show();
                     MenuCashier.tvTotal.setText("Rp. -");
                 }
             }
