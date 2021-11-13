@@ -240,6 +240,7 @@ public class MenuCashier extends AppCompatActivity {
     private void stockReduction(){
         if (switchCompat.isChecked()) {
             reset();
+            // Fix
             for (Trans object : listTemp) {
                 DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(object.getId());
                 Integer stok = Integer.parseInt(object.getStock());
