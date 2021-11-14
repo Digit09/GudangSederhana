@@ -283,9 +283,28 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, Login.class));
             finish();
         } else {
-            auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            loadJudul();
-            cekIntentScanner();
+            String ref = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            DatabaseReference data = FirebaseDatabase.getInstance().getReference("Sellers").child(ref);
+            data.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (Boolean.parseBoolean(snapshot.child("ban").getValue().toString())){
+                        FirebaseAuth.getInstance().signOut(); //logout
+                        Toast.makeText(MainActivity.this, "Akun anda tidak belum teraktivasi oleh admin.", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, Login.class));
+                        finish();
+                    } else {
+                        auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        loadJudul();
+                        cekIntentScanner();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
     }
 

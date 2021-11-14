@@ -24,8 +24,6 @@ import java.util.Map;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +32,7 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("AppLock");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("App");
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
