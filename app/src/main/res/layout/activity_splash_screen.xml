@@ -13,26 +13,83 @@
         android:layout_centerInParent="true"
         android:src="@mipmap/ic_menu"
         android:id="@+id/splashlogo" />
-    <RelativeLayout
-        android:layout_width="wrap_content"
+
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="60dp" >
-        <TextView
-            android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:layout_marginVertical="10dp"
+        android:layout_below="@id/splashlogo"
+        android:text="..."
+        android:id="@+id/tvVersion_ss"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true" >
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_weight="50"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="16sp"
-            android:text="from"
-            android:id="@+id/tvAdded1_ss"/>
-        <TextView
-            android:layout_width="match_parent"
+            android:padding="10dp" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:text="dikembangkan"
+                android:id="@+id/tvAdded2_ss" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvAdded2_ss"
+                android:layout_centerHorizontal="true" >
+                <ImageView
+                    android:id="@+id/logoKKN"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:src="@mipmap/ic_logo_kkn" />
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:src="@mipmap/ic_logo_banuadev"
+                    android:id="@+id/logoBanuaDev" />
+            </LinearLayout>
+        </RelativeLayout>
+        <View
+            android:layout_width="0.1dp"
+            android:layout_weight="0.1"
+            android:layout_height="match_parent"
+            android:background="#5e5e5e"
+            android:layout_marginVertical="5dp"
+            android:id="@+id/separator1_ss" />
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_weight="40"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:text="Digit | BanuaDev"
-            android:layout_below="@id/tvAdded1_ss"/>
-    </RelativeLayout>
+            android:id="@+id/rlCipta" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:text="ciptaan"
+                android:id="@+id/tvAdded1_ss"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:text="Digit | BanuaDev"
+                android:layout_below="@id/tvAdded1_ss"/>
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
