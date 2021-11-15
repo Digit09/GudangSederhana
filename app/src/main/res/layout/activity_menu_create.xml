@@ -228,7 +228,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="10dp"
-                        android:layout_below="@id/edProdusen" >
+                        android:layout_below="@id/edProdusen"
+                        android:id="@+id/llKedaluwarsa">
                         <EditText
                             android:layout_weight="1"
                             android:layout_width="0dp"
@@ -260,6 +261,41 @@
                             android:layout_below="@id/btManualAdd"
                             android:id="@+id/btClearExpired_mc" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_below="@id/llKedaluwarsa"
+                        android:id="@+id/llStok">
+                        <EditText
+                            android:layout_width="0dip"
+                            android:layout_weight="0.6"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:textSize="16sp"
+                            android:maxLength="3"
+                            android:hint="Stok.."
+                            android:padding="12dp"
+                            android:drawablePadding="10dp"
+                            android:lines="1"
+                            android:background="@drawable/round_border"
+                            android:drawableStart="@drawable/ic_baseline_inventory_24"
+                            android:drawableTint="#c62828"
+                            android:inputType="number"
+                            android:id="@+id/edStok" />
+                        <TextView
+                            android:layout_width="0dip"
+                            android:layout_weight="0.4"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="10dp"
+                            android:text="Gudang Sederhana"
+                            android:textSize="14sp"
+                            android:padding="5dp"
+                            android:id="@+id/tvAdded_GudangSederhana" />
+                    </LinearLayout>
+
 
                 </RelativeLayout>
 

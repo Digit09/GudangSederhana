@@ -328,8 +328,6 @@ public class MenuCashier extends AppCompatActivity {
                     for (Goods object : blist) {
                         if (object.getName().toLowerCase().contains(s.toString().toLowerCase())) {
                             alist.add(object);
-                        } else if (object.getId().toLowerCase().contains(s.toString().toLowerCase())) {
-                            alist.add(object);
                         }
                     }
                     manualAddAdapter.notifyDataSetChanged();

@@ -57,25 +57,30 @@ public class MenuInitialSetup extends AppCompatActivity {
     }
 
     public static class CreateSeller {
-        public String shopName, owner, address, phoneNumber;
+        public String uid, shopName, owner, address, phoneNumber;
+        public Boolean ban;
 
         public CreateSeller(){
 
         }
 
-        public CreateSeller(String shopName, String owner, String address, String phoneNumber){
+        public CreateSeller(String uid, String shopName, String owner, String address, String phoneNumber, Boolean ban){
+            this.uid = uid;
             this.shopName = shopName;
             this.owner = owner;
             this.address = address;
             this.phoneNumber = phoneNumber;
+            this.ban = ban;
         }
     }
 
     private void createData() {
+        String uid = auth;
         String namaToko = MainActivity.capitalizeEachWord(edNamaToko.getText().toString().trim());
         String namaPemilik = MainActivity.capitalizeEachWord(edNamaPemilik.getText().toString().trim());
         String alamat = MainActivity.capitalizeEachWord(edAlamat.getText().toString().trim());
         String noTelp = MainActivity.capitalizeEachWord(edNoTelp.getText().toString().trim());
+        Boolean ban = false;
 
         if (namaToko.isEmpty()){
             edNamaToko.setError("Nama Toko harus diisi..");
@@ -92,7 +97,7 @@ public class MenuInitialSetup extends AppCompatActivity {
         } else {
             progressBar.setVisibility(View.VISIBLE);
 
-            CreateSeller createSeller = new CreateSeller(namaToko, namaPemilik, alamat, noTelp);
+            CreateSeller createSeller = new CreateSeller(uid, namaToko, namaPemilik, alamat, noTelp, ban);
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Sellers").child(auth);
             ref.setValue(createSeller).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

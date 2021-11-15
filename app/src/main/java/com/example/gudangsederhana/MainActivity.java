@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         declaration();
         allSettingClick();
+        loadJudul();
         //cekIntentScanner();
         cekInternet();
     }
@@ -291,11 +292,13 @@ public class MainActivity extends AppCompatActivity {
             data.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (Boolean.parseBoolean(snapshot.child("ban").getValue().toString())){
-                        FirebaseAuth.getInstance().signOut(); //logout
-                        Toast.makeText(MainActivity.this, "Akun anda tidak belum teraktivasi oleh admin.", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this, Login.class));
-                        finish();
+                    if (snapshot.exists()) {
+                        if (Boolean.parseBoolean(snapshot.child("ban").getValue().toString())) {
+                            FirebaseAuth.getInstance().signOut(); //logout
+                            Toast.makeText(MainActivity.this, "Akun anda belum teraktivasi oleh admin.", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(MainActivity.this, Login.class));
+                            finish();
+                        }
                     } else {
                         auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         loadJudul();
@@ -316,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
         if (cekSharedPreferenced()){
             String ref = FirebaseAuth.getInstance().getCurrentUser().getUid();
             DatabaseReference data = FirebaseDatabase.getInstance().getReference("Sellers").child(ref);
-            data.addValueEventListener(new ValueEventListener() {
+            data.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (!snapshot.exists()){
@@ -354,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static Boolean cekSharedPreferenced(){
+    private Boolean cekSharedPreferenced(){
         String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String loadName = shopNameSaved.getString(auth, "false");
         String loadName2 = ownerSaved.getString(auth, "false");
@@ -363,13 +366,13 @@ public class MainActivity extends AppCompatActivity {
         String loadName5 = emailSaved.getString(auth, "false");
         if (loadName.equals("false")){
             return true;
-        }if (loadName2.equals("false")){
+        } else if (loadName2.equals("false")){
             return true;
-        }if (loadName3.equals("false")){
+        } else if (loadName3.equals("false")){
             return true;
-        }if (loadName4.equals("false")){
+        } else if (loadName4.equals("false")){
             return true;
-        }if (loadName5.equals("false")){
+        } else if (loadName5.equals("false")){
             return true;
         } else {
             return false;

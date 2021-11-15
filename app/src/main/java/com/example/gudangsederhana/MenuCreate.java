@@ -40,7 +40,7 @@ public class MenuCreate extends AppCompatActivity {
 
     private Toolbar toolbar;
     public static EditText getEdId;
-    private EditText getEdNamaB, getEdHarga, getEdModal, getEdProdusen, getEdKedaluwarsa;
+    private EditText getEdNamaB, getEdHarga, getEdModal, getEdProdusen, getEdKedaluwarsa, getEdStok;
     private Spinner getEdKategori;
     private Button btSimpan, btClearExpired_mc, btClearKategori;
     private ProgressBar progressBar;
@@ -76,6 +76,7 @@ public class MenuCreate extends AppCompatActivity {
         getEdKategori = findViewById(R.id.edKategori);
         getEdProdusen = findViewById(R.id.edProdusen);
         getEdKedaluwarsa = findViewById(R.id.edKedaluwarsa);
+        getEdStok = findViewById(R.id.edStok);
 
         auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -108,13 +109,13 @@ public class MenuCreate extends AppCompatActivity {
     }
 
     public static class Create {
-        public String id, name, price, fund, category, producer, expired;
+        public String id, name, price, fund, category, producer, expired, stock;
 
         public Create(){
 
         }
 
-        public Create(String id, String name, String price, String fund, String category, String producer, String expired){
+        public Create(String id, String name, String price, String fund, String category, String producer, String expired, String stock){
             this.id = id;
             this.name = name;
             this.price = price;
@@ -122,6 +123,7 @@ public class MenuCreate extends AppCompatActivity {
             this.category = category;
             this.producer = producer;
             this.expired = expired;
+            this.stock = stock;
         }
     }
 
@@ -158,6 +160,7 @@ public class MenuCreate extends AppCompatActivity {
         String kategori = MainActivity.capitalizeEachWord(getEdKategori.getSelectedItem().toString().trim());
         String produsen = MainActivity.capitalizeEachWord(getEdProdusen.getText().toString().trim());
         String kedaluwarsa = MainActivity.capitalizeEachWord(getEdKedaluwarsa.getText().toString().trim());
+        String stok = MainActivity.capitalizeEachWord(getEdStok.getText().toString().trim());
 
         if (id.isEmpty()){
             getEdId.setError("Barcode Barang harus diisi (Manual)..");
@@ -184,8 +187,11 @@ public class MenuCreate extends AppCompatActivity {
             if (kedaluwarsa.isEmpty()) {
                 kedaluwarsa = "-";
             }
+            if (stok.isEmpty()) {
+                stok = "-";
+            }
             progressBar.setVisibility(View.VISIBLE);
-            Create create = new Create(id, nama, harga, modal, kategori, produsen, kedaluwarsa);
+            Create create = new Create(id, nama, harga, modal, kategori, produsen, kedaluwarsa, stok);
 
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(id);
             ref.setValue(create).addOnCompleteListener(new OnCompleteListener<Void>() {
