@@ -284,8 +284,44 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="33dp"
+            android:paddingHorizontal="37dp"
             android:layout_below="@id/rlKedaluwarsa"
+            android:id="@+id/rlStok" >
+            <TextView
+                android:layout_width="112dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="18dp"
+                android:text="Stok"
+                android:maxLines="4"
+                android:singleLine="false"
+                android:textSize="16sp"
+                android:id="@+id/addedStok" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/addedStok"
+                android:text=":"
+                android:paddingEnd="10dp"
+                android:textSize="16sp"
+                android:paddingTop="18dp"
+                android:id="@+id/addedStok1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="18dp"
+                android:layout_toRightOf="@id/addedStok1"
+                android:text="tvStok"
+                android:maxLines="4"
+                android:singleLine="false"
+                android:textSize="16sp"
+                android:id="@+id/tvStok" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="33dp"
+            android:layout_below="@id/rlStok"
             android:paddingVertical="10dp"
             android:id="@+id/rlShowHide" >
             <Button

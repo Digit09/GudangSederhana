@@ -61,8 +61,8 @@ public class ManualAddAdapter extends RecyclerView.Adapter<ManualAddAdapter.MyVi
         Goods goods = list.get(position);
         holder.id = goods.getId();
         if (MenuCashier.wordMCL > 0) {
-            String mystr = goods.getName().toLowerCase();
-            String mystr2 = MenuCashier.wordMC.toLowerCase();
+            String mystr = goods.getName();
+            String mystr2 = MenuCashier.wordMC;
             int start = mystr.indexOf(mystr2);
             int end = start + MenuCashier.wordMC.length();
             str = new SpannableString(goods.getName());

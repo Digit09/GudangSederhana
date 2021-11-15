@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Toast backToast;
     Toolbar toolBar;
     RelativeLayout rlRead, rlDataShow, rlAllButton;
-    TextView tvResult, tvNama, tvHarga, tvModal, tvKategori, tvProdusen, tvKedaluwarsa, tvKet, judulMenuC;
+    TextView tvResult, tvNama, tvHarga, tvModal, tvKategori, tvProdusen, tvKedaluwarsa, tvStok, tvKet, judulMenuC;
     Button updateBtn, deleteBtn, showBtn, hideBtn, btManualAdd, scannerBtn;
     String auth, getResult = "0";
     public static SharedPreferences shopNameSaved, ownerSaved, addressSaved, phoneNumberSaved, emailSaved;
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         tvKategori = findViewById(R.id.tvKategori);
         tvProdusen = findViewById(R.id.tvProdusen);
         tvKedaluwarsa = findViewById(R.id.tvKedaluwarsa);
+        tvStok = findViewById(R.id.tvStok);
         tvKet = findViewById(R.id.tvKet);
         rlRead = findViewById(R.id.rlRead);
         rlDataShow = findViewById(R.id.rlDataShow);
@@ -157,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
                     String vCategory = snapshot.child("category").getValue().toString();
                     String vProducer = snapshot.child("producer").getValue().toString();
                     String vExpired = snapshot.child("expired").getValue().toString();
+                    String vStock = snapshot.child("stock").getValue().toString();
 
                     tvResult.setText(vId);
                     tvNama.setText(vName);
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     tvKategori.setText(vCategory);
                     tvProdusen.setText(vProducer);
                     tvKedaluwarsa.setText(vExpired);
+                    tvStok.setText(vStock);
 
                     updateBtn.setOnClickListener(new View.OnClickListener() {
                         @Override

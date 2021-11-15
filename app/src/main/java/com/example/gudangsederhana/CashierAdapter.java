@@ -1,7 +1,9 @@
 package com.example.gudangsederhana;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -110,24 +113,40 @@ public class CashierAdapter extends RecyclerView.Adapter<CashierAdapter.MyViewHo
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.exists()) {
                                         String stok = snapshot.child("stock").getValue().toString();
-                                        if (!s.toString().isEmpty()) {
-                                            if (Integer.parseInt(stok) >= Integer.parseInt(s.toString())) {
-                                                DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(holder.id_barcode);
-                                                Map<String, Object> map = new HashMap<>();
-                                                map.put("count", s.toString());
-                                                ref2.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-                                                            hitung(context, auth);
-                                                        } else {
-                                                            Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                                        if (!stok.equals("-")){
+                                            if (!s.toString().isEmpty()) {
+                                                if (Integer.parseInt(stok) >= Integer.parseInt(s.toString())) {
+                                                    DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(holder.id_barcode);
+                                                    Map<String, Object> map = new HashMap<>();
+                                                    map.put("count", s.toString());
+                                                    ref2.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                hitung(context, auth);
+                                                            } else {
+                                                                Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                                                            }
                                                         }
-                                                    }
-                                                });
-                                            } else {
-                                                holder.count.setText(stok);
+                                                    });
+                                                } else {
+                                                    holder.count.setText(stok);
+                                                }
                                             }
+                                        } else {
+                                            DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(holder.id_barcode);
+                                            Map<String, Object> map = new HashMap<>();
+                                            map.put("count", s.toString());
+                                            ref2.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        hitung(context, auth);
+                                                    } else {
+                                                        Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
                                         }
                                     } else {
                                         Toast.makeText(context, "Terjadi kesalahan dalam memnemukan data", Toast.LENGTH_SHORT).show();
@@ -136,7 +155,7 @@ public class CashierAdapter extends RecyclerView.Adapter<CashierAdapter.MyViewHo
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
-
+                                    Toast.makeText(context, "Terjadi kesalahan saat koneksi ke basis data", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {

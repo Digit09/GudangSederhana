@@ -53,7 +53,7 @@ public class MenuCashier extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView judulMenuC;
     private Button scannerBtn, manualAddBtn, resetBtn, incomeBtn;
-    private SwitchCompat switchCompat;
+    public static SwitchCompat switchCompat;
     private String getResult = "0";
     public static String wordMC;
     public static RecyclerView recyclerView;
@@ -241,15 +241,32 @@ public class MenuCashier extends AppCompatActivity {
         if (switchCompat.isChecked()) {
             reset();
             // Fix
+            Boolean deteksiStokKosong = false;
             for (Trans object : listTemp) {
-                DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(object.getId());
-                Integer stok = Integer.parseInt(object.getStock());
-                Integer x = stok - Integer.parseInt(object.getCount());
-                Map<String, Object> map = new HashMap<>();
-                map.put("stock", x.toString());
-                ref2.updateChildren(map);
+                if (!object.getStock().equals("-")) {
+                    DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(object.getId());
+                    Integer stok = Integer.parseInt(object.getStock());
+                    Integer x = stok - Integer.parseInt(object.getCount());
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("stock", x.toString());
+                    ref2.updateChildren(map);
+                } else {
+                    deteksiStokKosong = true;
+                }
             }
-            Toast.makeText(getBaseContext(), "Berhasil menambah pemasukan", Toast.LENGTH_SHORT).show();
+            if (deteksiStokKosong) {
+                AlertDialog.Builder confirm = new AlertDialog.Builder(MenuCashier.this);
+                confirm.setMessage("Berhasil menambah pemasukan.\nBeberapa barang tidak dilakukan proses pengurangan stok, karena stok terdeteksi kosong.");
+                confirm.setPositiveButton("Oke", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                confirm.create().show();
+            } else {
+                Toast.makeText(getBaseContext(), "Berhasil menambah pemasukan", Toast.LENGTH_SHORT).show();
+            }
         } else {
             reset();
         }

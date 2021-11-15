@@ -38,6 +38,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private String version;
     private TextView tvVersion;
+    private Boolean skip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         tvVersion = findViewById(R.id.tvVersion_ss);
-
+        skip = true;
         try {
             Context context = SplashScreen.this;
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -98,16 +99,19 @@ public class SplashScreen extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 SplashScreen.this.finish();
                 System.exit(0);
+                skip = false;
             }
         });
         confirm.create().show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                SplashScreen.this.finish();
-                System.exit(0);
-            }
-        }, 5000);
+        if (skip) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    SplashScreen.this.finish();
+                    System.exit(0);
+                }
+            }, 5000);
+        }
     }
 
     private void dialogUpdate(String versionRtdb, String newestUrl){
@@ -125,20 +129,23 @@ public class SplashScreen extends AppCompatActivity {
         confirm.setNegativeButton("Jangan sekarang", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                skip = false;
                 Intent i = new Intent(SplashScreen.this, MainActivity.class);
                 startActivity(i);
                 finish();
             }
         });
         confirm.create().show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent i = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        }, 15000);
+        if (skip) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(SplashScreen.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }, 15000);
+        }
     }
 
     private void download(String versionRtdb, String urlFile){

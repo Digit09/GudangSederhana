@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -43,9 +45,9 @@ import java.util.Objects;
 
 public class MenuUpdate extends AppCompatActivity {
 
-    private EditText getEdId, getEdNamaB, getEdHarga, getEdModal, getEdProdusen, getEdKedaluwarsa;
+    private EditText getEdId, getEdNamaB, getEdHarga, getEdModal, getEdProdusen, getEdKedaluwarsa, getEdStok;
     private Spinner getEdKategori;
-    private String vNamaB, vHarga, vModal, vKategori, vProdusen, vKedaluwarsa;
+    private String vNamaB, vHarga, vModal, vKategori, vProdusen, vKedaluwarsa, vStok;
     private ProgressBar progressBar;
     private Button btUbah, btClearExpiredU, btClearKategoriU;
 
@@ -72,6 +74,7 @@ public class MenuUpdate extends AppCompatActivity {
         getEdKategori = findViewById(R.id.edKategoriU);
         getEdProdusen = findViewById(R.id.edProdusenU);
         getEdKedaluwarsa = findViewById(R.id.edKedaluwarsaU);
+        getEdStok = findViewById(R.id.edStokU);
 
         progressBar = findViewById(R.id.progressbarUpdate);
 
@@ -81,6 +84,13 @@ public class MenuUpdate extends AppCompatActivity {
         if (intent.hasExtra("idBarangU")) {
             String getId = intent.getStringExtra("idBarangU");
             loadDataBarang(getId);
+        } else if (intent.hasExtra("updateStockNow")) {
+            String getId2 = intent.getStringExtra("updateStockNow");
+            loadDataBarang(getId2);
+            getEdStok.requestFocus();
+            InputMethodManager imm;
+            imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(getEdStok, InputMethodManager.SHOW_IMPLICIT);
         }
 
         btUbah.setOnClickListener(new View.OnClickListener() {
@@ -97,14 +107,9 @@ public class MenuUpdate extends AppCompatActivity {
         });
     }
 
-    private void cekIntentUbah(){
-
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
-        cekIntentUbah();
     }
 
     private void cekData(String id){
@@ -114,11 +119,13 @@ public class MenuUpdate extends AppCompatActivity {
                     if (getEdKategori.getSelectedItem().toString().trim().equals(vKategori)) {
                         if (getEdProdusen.getText().toString().trim().equals(vProdusen)) {
                             if (getEdKedaluwarsa.getText().toString().trim().equals(vKedaluwarsa)) {
-                                String teks = "Data belum ada perubahan! Tekan tombol kembali jika ingin batal";
-                                Toast.makeText(MenuUpdate.this, teks, Toast.LENGTH_LONG).show();
-                            } else {
-                                //Toast.makeText(MenuUpdate.this, "expired", Toast.LENGTH_LONG).show();
-                                updateConfirm(id);
+                                if (getEdStok.getText().toString().trim().equals(vStok)) {
+                                    String teks = "Data belum ada perubahan! Tekan tombol kembali jika ingin batal";
+                                    Toast.makeText(MenuUpdate.this, teks, Toast.LENGTH_LONG).show();
+                                } else {
+                                    //Toast.makeText(MenuUpdate.this, "expired", Toast.LENGTH_LONG).show();
+                                    updateConfirm(id);
+                                }
                             }
                         } else {
                             //Toast.makeText(MenuUpdate.this, "producer", Toast.LENGTH_LONG).show();
@@ -168,6 +175,7 @@ public class MenuUpdate extends AppCompatActivity {
         String kategori = MainActivity.capitalizeEachWord(getEdKategori.getSelectedItem().toString().trim());
         String produsen = MainActivity.capitalizeEachWord(getEdProdusen.getText().toString().trim());
         String kedaluwarsa = MainActivity.capitalizeEachWord(getEdKedaluwarsa.getText().toString().trim());
+        String stok = MainActivity.capitalizeEachWord(getEdStok.getText().toString().trim());
 
         if (nama.isEmpty()) {
             getEdNamaB.setError("Nama Barang harus diisi..");
@@ -190,6 +198,9 @@ public class MenuUpdate extends AppCompatActivity {
             if (kedaluwarsa.isEmpty()) {
                 kedaluwarsa = "-";
             }
+            if (stok.isEmpty()) {
+                stok = "-";
+            }
 
             Map<String, Object> map = new HashMap<>();
             map.put("name", nama);
@@ -198,6 +209,7 @@ public class MenuUpdate extends AppCompatActivity {
             map.put("category", kategori);
             map.put("producer", produsen);
             map.put("expired", kedaluwarsa);
+            map.put("stock", stok);
 
             progressBar.setVisibility(View.VISIBLE);
             String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -229,6 +241,7 @@ public class MenuUpdate extends AppCompatActivity {
                 vKategori = snapshot.child("category").getValue().toString();
                 vProdusen = snapshot.child("producer").getValue().toString();
                 vKedaluwarsa = snapshot.child("expired").getValue().toString();
+                vStok = snapshot.child("stock").getValue().toString();
 
                 getEdId.setText(id);
                 getEdNamaB.setText(vNamaB);
@@ -270,6 +283,11 @@ public class MenuUpdate extends AppCompatActivity {
                     getEdKedaluwarsa.setText(vKedaluwarsa);
                 } else {
                     vKedaluwarsa = "";
+                }
+                if (!vStok.equals("-")){
+                    getEdStok.setText(vStok);
+                } else {
+                    vStok = "";
                 }
             }
 

@@ -31,7 +31,7 @@ public class MenuSearchDetail extends AppCompatActivity {
 
     Toolbar toolbar;
     RelativeLayout rlDataShow;
-    TextView tvResult, tvNama, tvHarga, tvModal, tvKategori, tvProdusen, tvKedaluwarsa, judulMenuC;
+    TextView tvResult, tvNama, tvHarga, tvModal, tvKategori, tvProdusen, tvKedaluwarsa, tvStok, judulMenuC;
     Button updateBtn, deleteBtn, showBtn, hideBtn;
     String getResult = "0";
 
@@ -58,6 +58,7 @@ public class MenuSearchDetail extends AppCompatActivity {
         tvKategori = findViewById(R.id.tvKategori);
         tvProdusen = findViewById(R.id.tvProdusen);
         tvKedaluwarsa = findViewById(R.id.tvKedaluwarsa);
+        tvStok = findViewById(R.id.tvStok);
         rlDataShow = findViewById(R.id.rlDataShow);
         showBtn = findViewById(R.id.btShow);
         hideBtn = findViewById(R.id.btHide);
@@ -106,6 +107,7 @@ public class MenuSearchDetail extends AppCompatActivity {
                     String vCategory = snapshot.child("category").getValue().toString();
                     String vProducer = snapshot.child("producer").getValue().toString();
                     String vExpired = snapshot.child("expired").getValue().toString();
+                    String vStock = snapshot.child("stock").getValue().toString();
 
                     tvResult.setText(vId);
                     tvNama.setText(vName);
@@ -114,6 +116,7 @@ public class MenuSearchDetail extends AppCompatActivity {
                     tvKategori.setText(vCategory);
                     tvProdusen.setText(vProducer);
                     tvKedaluwarsa.setText(vExpired);
+                    tvStok.setText(vStock);
 
                     updateBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
