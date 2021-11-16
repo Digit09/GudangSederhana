@@ -68,12 +68,16 @@ public class SplashScreen extends AppCompatActivity {
                         if (snapshot.exists()){
                             String versionDb = snapshot.child("version").getValue().toString();
                             String newestUrlDb = snapshot.child("newestUrl").getValue().toString();
-                            if (Boolean.parseBoolean(snapshot.child("lock").getValue().toString())){
+                            String lockDb = snapshot.child("lock").getValue().toString();
+                            String notifyShowDb = snapshot.child("Notify").child("show").getValue().toString();
+                            String notifyTextDb = snapshot.child("Notify").child("text").getValue().toString();
+                            if (Boolean.parseBoolean(lockDb)){
                                 dialogLock();
                             } else if (!versionDb.equals(version)){
                                 dialogUpdate(versionDb, newestUrlDb);
-                            }
-                            else {
+                            } else if (Boolean.parseBoolean(notifyShowDb)){
+                                dialogNotify(notifyTextDb);
+                            } else {
                                 Intent i = new Intent(SplashScreen.this, MainActivity.class);
                                 startActivity(i);
                                 finish();
@@ -107,6 +111,7 @@ public class SplashScreen extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    skip = true;
                     SplashScreen.this.finish();
                     System.exit(0);
                 }
@@ -140,6 +145,34 @@ public class SplashScreen extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    skip = true;
+                    Intent i = new Intent(SplashScreen.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }, 15000);
+        }
+    }
+
+    private void dialogNotify(String text){
+        AlertDialog.Builder confirm = new AlertDialog.Builder(this);
+        confirm.setTitle("Pemberitahuan");
+        confirm.setMessage(text);
+        confirm.setPositiveButton("Oke", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                skip = false;
+                Intent i = new Intent(SplashScreen.this, MainActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+        confirm.create().show();
+        if (skip) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    skip = true;
                     Intent i = new Intent(SplashScreen.this, MainActivity.class);
                     startActivity(i);
                     finish();
