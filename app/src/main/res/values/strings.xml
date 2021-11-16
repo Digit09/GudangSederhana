@@ -3,6 +3,7 @@
 
     <string-array name="filter">
         <item>-- Pilih jenis pencarian --</item>
+        <item>ID Barang</item>
         <item>Nama</item>
         <item>Harga</item>
         <item>Produsen</item>

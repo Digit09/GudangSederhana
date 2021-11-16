@@ -298,11 +298,11 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Akun anda belum teraktivasi oleh admin.", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(MainActivity.this, Login.class));
                             finish();
+                        } else {
+                            auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            loadJudul();
+                            cekIntentScanner();
                         }
-                    } else {
-                        auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        loadJudul();
-                        cekIntentScanner();
                     }
                 }
 

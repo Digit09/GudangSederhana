@@ -62,7 +62,7 @@ public class MenuSearch extends AppCompatActivity {
 
     public static Integer wordMSL = 0;
     public static String filter, sortir, wordMS = "";
-    private Integer indexFilter = 1, indexSortir = 1;
+    private Integer indexFilter = 2, indexSortir = 1;
     private Toolbar toolbar;
     private EditText edSearch;
     private RecyclerView recyclerView;
@@ -341,7 +341,11 @@ public class MenuSearch extends AppCompatActivity {
 
             list.clear();
             for (Goods object : myList) {
-                if (filter.equalsIgnoreCase("nama")) {
+                if (filter.equalsIgnoreCase("id barang")) {
+                    if (object.getId().toLowerCase().contains(data.toLowerCase())) {
+                        list.add(object);
+                    }
+                } else if (filter.equalsIgnoreCase("nama")) {
                     if (object.getName().toLowerCase().contains(data.toLowerCase())) {
                         list.add(object);
                     }
@@ -474,21 +478,23 @@ public class MenuSearch extends AppCompatActivity {
                 filter = spinner.getSelectedItem().toString();
                 indexSortir = spinner2.getSelectedItemPosition();
                 sortir = spinner2.getSelectedItem().toString();
-                if (indexFilter > 3) {
-                    if (indexFilter.equals(4)) {
+                if (indexFilter > 4) {
+                    if (indexFilter.equals(5)) {
                         edSearch.setText("Makanan");
-                    } else if (indexFilter.equals(5)) {
-                        edSearch.setText("Minuman");
                     } else if (indexFilter.equals(6)) {
+                        edSearch.setText("Minuman");
+                    } else if (indexFilter.equals(7)) {
                         edSearch.setText("Barang");
                     }
                     filter = "Kategori";
                     edSearch.setInputType(InputType.TYPE_CLASS_TEXT);
                 } else {
                     if (indexFilter.equals(2)) {
+                        edSearch.setInputType(InputType.TYPE_CLASS_TEXT);
+                    } else if (indexFilter.equals(3)) {
                         edSearch.setInputType(InputType.TYPE_CLASS_NUMBER);
                     } else {
-                        edSearch.setInputType(InputType.TYPE_CLASS_TEXT);
+                        edSearch.setInputType(InputType.TYPE_CLASS_NUMBER);
                     }
                     edSearch.setText("");
                 }
