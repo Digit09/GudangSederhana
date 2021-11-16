@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         declaration();
         allSettingClick();
-        loadJudul();
+        //loadJudul();
         //cekIntentScanner();
         cekInternet();
     }
