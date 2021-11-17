@@ -38,7 +38,6 @@ public class SplashScreen extends AppCompatActivity {
 
     private String version;
     private TextView tvVersion;
-    private Boolean skip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,6 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         tvVersion = findViewById(R.id.tvVersion_ss);
-        skip = true;
         try {
             Context context = SplashScreen.this;
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -57,7 +55,6 @@ public class SplashScreen extends AppCompatActivity {
         }
 
         tvVersion.setText(version);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -97,32 +94,26 @@ public class SplashScreen extends AppCompatActivity {
     private void dialogLock(){
         AlertDialog.Builder confirm = new AlertDialog.Builder(this);
         confirm.setTitle("Pemberitahuan");
-        confirm.setMessage("Aplikasi masih dalam tahap perbaikan. Mohon maaf atas ketidaknyamanannya. Aplikasi akan ditutup dalam 5 detik.");
+        confirm.setMessage("Aplikasi masih dalam tahap perbaikan. Mohon maaf atas ketidaknyamanannya.");
         confirm.setPositiveButton("Oke", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
                 SplashScreen.this.finish();
                 System.exit(0);
-                skip = false;
             }
         });
         confirm.create().show();
-        if (skip) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    skip = true;
-                    SplashScreen.this.finish();
-                    System.exit(0);
-                }
-            }, 5000);
-        }
     }
 
     private void dialogUpdate(String versionRtdb, String newestUrl){
         AlertDialog.Builder confirm = new AlertDialog.Builder(this);
         confirm.setTitle("Pemberitahuan");
-        confirm.setMessage("Versi terbaru aplikasi Gudang Sederhana ("+versionRtdb+") telah tersedia. Unduh sekarang? \nMenu selanjutnya akan dibuka dalam 15 detik.");
+        confirm.setMessage("Versi terbaru aplikasi Gudang Sederhana ("+versionRtdb+") telah tersedia. Unduh sekarang?");
         confirm.setPositiveButton("Unduh", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -130,28 +121,20 @@ public class SplashScreen extends AppCompatActivity {
                 // Toast.makeText(SplashScreen.this, version, Toast.LENGTH_LONG).show();
                 download(versionRtdb, newestUrl);
             }
-        });
-        confirm.setNegativeButton("Jangan sekarang", new DialogInterface.OnClickListener() {
+        }).setNegativeButton("Jangan sekarang", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                skip = false;
+
+            }
+        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
                 Intent i = new Intent(SplashScreen.this, MainActivity.class);
                 startActivity(i);
                 finish();
             }
         });
         confirm.create().show();
-        if (skip) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    skip = true;
-                    Intent i = new Intent(SplashScreen.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-            }, 15000);
-        }
     }
 
     private void dialogNotify(String text){
@@ -161,24 +144,17 @@ public class SplashScreen extends AppCompatActivity {
         confirm.setPositiveButton("Oke", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                skip = false;
+
+            }
+        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
                 Intent i = new Intent(SplashScreen.this, MainActivity.class);
                 startActivity(i);
                 finish();
             }
         });
         confirm.create().show();
-        if (skip) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    skip = true;
-                    Intent i = new Intent(SplashScreen.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-            }, 15000);
-        }
     }
 
     private void download(String versionRtdb, String urlFile){
