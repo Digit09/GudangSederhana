@@ -223,6 +223,45 @@ public class MenuUpdate extends AppCompatActivity {
                     } else {
                         Toast.makeText(getBaseContext(), "Data barang gagal diubah", Toast.LENGTH_SHORT).show();
                     }
+                }
+            });
+            DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(id);
+            ref2.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    if (task.isSuccessful()) {
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(id);
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()){
+                                    Integer countV = Integer.parseInt(snapshot.child("count").getValue().toString());
+                                    Integer stokV = Integer.parseInt(MainActivity.capitalizeEachWord(getEdStok.getText().toString().trim()));
+                                    String stokS = MainActivity.capitalizeEachWord(getEdStok.getText().toString().trim());
+                                    if (countV > stokV){
+                                        Map<String, Object> map = new HashMap<>();
+                                        map.put("count", stokS);
+                                        String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                        DatabaseReference ref3 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(id);
+                                        ref3.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                onBackPressed();
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getBaseContext(), "Terjadi kesalahan saat menyinkronkan dengan data Transaksi", Toast.LENGTH_SHORT).show();
+                    }
                     onBackPressed();
                 }
             });
