@@ -225,44 +225,40 @@ public class MenuUpdate extends AppCompatActivity {
                     }
                 }
             });
+
             DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(id);
-            ref2.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            ref2.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    progressBar.setVisibility(View.INVISIBLE);
-                    if (task.isSuccessful()) {
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(id);
-                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        Integer countV = Integer.parseInt(snapshot.child("count").getValue().toString());
+                        Integer stokV = Integer.parseInt(MainActivity.capitalizeEachWord(getEdStok.getText().toString().trim()));
+                        String stokS = MainActivity.capitalizeEachWord(getEdStok.getText().toString().trim());
+                        DatabaseReference ref3 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(id);
+                        ref3.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()){
-                                    Integer countV = Integer.parseInt(snapshot.child("count").getValue().toString());
-                                    Integer stokV = Integer.parseInt(MainActivity.capitalizeEachWord(getEdStok.getText().toString().trim()));
-                                    String stokS = MainActivity.capitalizeEachWord(getEdStok.getText().toString().trim());
+                            public void onComplete(@NonNull Task<Void> task) {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                if (task.isSuccessful()) {
                                     if (countV > stokV){
-                                        Map<String, Object> map = new HashMap<>();
-                                        map.put("count", stokS);
+                                        Map<String, Object> map1 = new HashMap<>();
+                                        map1.put("count", stokS);
                                         String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                        DatabaseReference ref3 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(id);
-                                        ref3.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                onBackPressed();
-                                            }
-                                        });
+                                        DatabaseReference ref4 = FirebaseDatabase.getInstance().getReference("Transactions").child(auth).child(id);
+                                        ref4.updateChildren(map1);
                                     }
+                                } else {
+                                    Toast.makeText(getBaseContext(), "Terjadi kesalahan saat menyinkronkan dengan data Transaksi", Toast.LENGTH_SHORT).show();
                                 }
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
                         });
-                    } else {
-                        Toast.makeText(getBaseContext(), "Terjadi kesalahan saat menyinkronkan dengan data Transaksi", Toast.LENGTH_SHORT).show();
                     }
                     onBackPressed();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getBaseContext(), "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
                 }
             });
         }
