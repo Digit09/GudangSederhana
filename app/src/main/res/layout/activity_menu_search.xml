@@ -68,12 +68,12 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMainA"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        tools:listitem="@layout/recyclerview_main_item"
         android:layout_below="@id/llKet_ms"
-        android:id="@+id/rvMainA" />
+        android:visibility="visible"
+        tools:listitem="@layout/recyclerview_main_item" />
 
     <ProgressBar
         android:layout_width="wrap_content"
