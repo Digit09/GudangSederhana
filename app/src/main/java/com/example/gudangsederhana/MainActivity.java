@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         declaration();
         allSettingClick();
-        loadJudul();
+        //loadJudul();
         //cekIntentScanner();
         cekInternet();
     }
@@ -303,6 +303,10 @@ public class MainActivity extends AppCompatActivity {
                             loadJudul();
                             cekIntentScanner();
                         }
+                    } else {
+                        auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        loadJudul();
+                        cekIntentScanner();
                     }
                 }
 
