@@ -55,15 +55,15 @@ public class MenuSettings extends AppCompatActivity {
         loadJudul();
         rlProfil.setOnClickListener(v -> {
             Intent intent = new Intent(MenuSettings.this, MenuSettingsProfile.class);
-            startActivity(intent);
+            startActivity(intent);// digit
         });
         llAkun.setOnClickListener(v -> {
             Intent intent = new Intent(MenuSettings.this, MenuSettingsAccount.class);
-            startActivity(intent);
+            startActivity(intent);// digit
         });
         llBantuan.setOnClickListener(v -> {
             Intent intent = new Intent(MenuSettings.this, MenuSettingsHelp.class);
-            startActivity(intent);
+            startActivity(intent);// digit
         });
     }
 
