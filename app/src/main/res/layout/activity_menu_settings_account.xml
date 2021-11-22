@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".settings.MenuSettingsAccount">
+
+    <include
+        layout="@layout/toolbar_form_layout"
+        android:id="@+id/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/added_createDsign1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="15dp"
+                        android:paddingHorizontal="5dp"
+                        android:id="@+id/llNamaToko_msa">
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="33dp"
+                            android:layout_weight="0.17"
+                            android:layout_gravity="top"
+                            android:src="@drawable/ic_baseline_vpn_key_24" />
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.68" >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="7dp"
+                                android:text="Privasi Akun"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:id="@+id/tvNamaToko_msa" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="*Profil dan Keterangan Akun hanya dapat dilihat oleh Anda sendiri"
+                                android:textSize="13sp"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:layout_below="@id/tvNamaToko_msa"
+                                android:id="@+id/addedKetPrivasiAkun" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.15" >
+                            <androidx.appcompat.widget.SwitchCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:id="@+id/scPrivasiAkun" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="5dp"
+                        android:layout_below="@id/llNamaToko_msa"
+                        android:id="@+id/separator1" >
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.16" />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0.7dp"
+                            android:layout_weight="0.755"
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#5e5e5e" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="15dp"
+                        android:paddingHorizontal="5dp"
+                        android:layout_below="@id/separator1"
+                        android:id="@+id/llEmail_msa">
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="33dp"
+                            android:layout_weight="0.17"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_baseline_email_24" />
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.83" >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:text="Ganti Email"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:id="@+id/tvAdded_Email" />
+
+                            <TextView
+                                android:id="@+id/tvEmail_msa"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tvAdded_Email"
+                                android:layout_marginRight="10dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="(Email)"
+                                android:textSize="13.5sp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="5dp"
+                        android:layout_below="@id/llEmail_msa"
+                        android:id="@+id/separator2" >
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.16" />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0.7dp"
+                            android:layout_weight="0.755"
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#5e5e5e" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="15dp"
+                        android:paddingHorizontal="5dp"
+                        android:layout_below="@id/separator2"
+                        android:id="@+id/llKataSandi_msa">
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="33dp"
+                            android:layout_weight="0.17"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_baseline_lock_24" />
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.83" >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:text="Ganti Kata Sandi"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:id="@+id/tvAdded_KataSandi" />
+
+                            <TextView
+                                android:id="@+id/tvKataSandi_msa"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tvAdded_KataSandi"
+                                android:layout_marginRight="10dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="(Kata Sandi)"
+                                android:textSize="13.5sp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </ScrollView>
+</RelativeLayout>

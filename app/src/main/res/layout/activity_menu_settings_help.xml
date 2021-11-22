@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".settings.MenuSettingsHelp"
     android:orientation="vertical">
+
     <include
         android:id="@+id/toolbarHelp"
         layout="@layout/toolbar_form_layout"/>
-
 
     <ScrollView
         android:layout_width="match_parent"

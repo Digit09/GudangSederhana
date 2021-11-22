@@ -44,6 +44,7 @@
                 <com.jjoe64.graphview.GraphView
                     android:layout_width="match_parent"
                     android:layout_height="250dip"
+                    android:padding="5dp"
                     android:layout_toRightOf="@id/tvAdded2_mi"
                     android:id="@+id/gvIncome_mi" />
             </RelativeLayout>

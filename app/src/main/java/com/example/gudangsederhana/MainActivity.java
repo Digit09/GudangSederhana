@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvResult, tvNama, tvHarga, tvModal, tvKategori, tvProdusen, tvKedaluwarsa, tvStok, tvKet, judulMenuC;
     Button updateBtn, deleteBtn, showBtn, hideBtn, btManualAdd, scannerBtn;
     String auth, getResult = "0";
-    public static SharedPreferences shopNameSaved, ownerSaved, addressSaved, phoneNumberSaved, emailSaved;
+    public static SharedPreferences shopNameSaved, ownerSaved, addressSaved, phoneNumberSaved, emailSaved, passwordSaved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         addressSaved = getApplicationContext().getSharedPreferences("addressSaved", MODE_PRIVATE);
         phoneNumberSaved = getApplicationContext().getSharedPreferences("phoneNumberSaved", MODE_PRIVATE);
         emailSaved = getApplicationContext().getSharedPreferences("emailSaved", MODE_PRIVATE);
+        passwordSaved = getApplicationContext().getSharedPreferences("passwordSaved", MODE_PRIVATE);
 
         toolBar = findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
@@ -367,7 +368,6 @@ public class MainActivity extends AppCompatActivity {
         String loadName2 = ownerSaved.getString(auth, "false");
         String loadName3 = addressSaved.getString(auth, "false");
         String loadName4 = phoneNumberSaved.getString(auth, "false");
-        String loadName5 = emailSaved.getString(auth, "false");
         if (loadName.equals("false")){
             return true;
         } else if (loadName2.equals("false")){
@@ -375,8 +375,6 @@ public class MainActivity extends AppCompatActivity {
         } else if (loadName3.equals("false")){
             return true;
         } else if (loadName4.equals("false")){
-            return true;
-        } else if (loadName5.equals("false")){
             return true;
         } else {
             return false;

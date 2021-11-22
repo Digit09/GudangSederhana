@@ -9,10 +9,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gudangsederhana.settings.MenuSettingsAccount;
+import com.example.gudangsederhana.settings.MenuSettingsHelp;
 import com.example.gudangsederhana.settings.MenuSettingsProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +28,7 @@ public class MenuSettings extends AppCompatActivity {
 
     Toolbar toolBar;
     RelativeLayout rlProfil;
+    LinearLayout llAkun, llBantuan;
     TextView tvToko, tvPemilik;
     SharedPreferences shopNameSaved, ownerSaved;
     String auth;
@@ -40,6 +44,8 @@ public class MenuSettings extends AppCompatActivity {
         judulMenuC.setText("Setelan");
 
         rlProfil = findViewById(R.id.rlProfil_ms);
+        llAkun = findViewById(R.id.llAkun_ms);
+        llBantuan = findViewById(R.id.llBantuan_ms);
         tvToko = findViewById(R.id.tvToko);
         tvPemilik = findViewById(R.id.tvPemilik);
         shopNameSaved = getApplicationContext().getSharedPreferences("shopNameSaved", MODE_PRIVATE);
@@ -49,6 +55,14 @@ public class MenuSettings extends AppCompatActivity {
         loadJudul();
         rlProfil.setOnClickListener(v -> {
             Intent intent = new Intent(MenuSettings.this, MenuSettingsProfile.class);
+            startActivity(intent);
+        });
+        llAkun.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuSettings.this, MenuSettingsAccount.class);
+            startActivity(intent);
+        });
+        llBantuan.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuSettings.this, MenuSettingsHelp.class);
             startActivity(intent);
         });
     }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:textSize="14sp"
+        android:hint="Masukkan Email Baru.."
+        android:padding="12dp"
+        android:drawablePadding="10dp"
+        android:drawableStart="@drawable/ic_baseline_email_24"
+        android:background="@drawable/round_border"
+        android:inputType="textEmailAddress"
+        android:imeOptions="actionDone"
+        android:imeActionLabel="OK"
+        android:maxLines="1"
+        android:id="@+id/edEmail_msa" />
+</RelativeLayout>

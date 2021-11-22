@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.gudangsederhana.settings.MenuSettingsAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,13 +27,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Login extends AppCompatActivity {
     EditText eEmail, ePassword;
     CheckBox cShowPassword;
     Button bMasuk;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
-    // Stefan Ketek
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +82,21 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()){
+                            String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            MainActivity.emailSaved.edit().putString(auth, email).apply();
+                            MainActivity.passwordSaved.edit().putString(auth, pass).apply();
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Settings").child(auth);
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("stockReduction", true);
+                            map.put("accountPrivacy", true);
+                            ref.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (!task.isSuccessful()){
+                                        Toast.makeText(Login.this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                             finish();
                         } else {
