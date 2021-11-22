@@ -51,7 +51,7 @@ public class MenuSettings extends AppCompatActivity {
         shopNameSaved = getApplicationContext().getSharedPreferences("shopNameSaved", MODE_PRIVATE);
         ownerSaved = getApplicationContext().getSharedPreferences("ownerSaved", MODE_PRIVATE);
         auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+        // digit
         loadJudul();
         rlProfil.setOnClickListener(v -> {
             Intent intent = new Intent(MenuSettings.this, MenuSettingsProfile.class);
