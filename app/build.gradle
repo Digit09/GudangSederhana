@@ -54,4 +54,5 @@ dependencies {
     implementation 'javax.xml.stream:stax-api:1.0'
 
     implementation 'com.orhanobut:dialogplus:1.11@aar'
+    implementation 'com.jjoe64:graphview:4.2.2'
 }

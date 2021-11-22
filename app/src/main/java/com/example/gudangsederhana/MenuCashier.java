@@ -146,7 +146,6 @@ public class MenuCashier extends AppCompatActivity {
                         }
                     }
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 

@@ -407,6 +407,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.cashier) {
             Intent intent = new Intent(MainActivity.this, MenuCashier.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.income) {
+            Intent intent = new Intent(MainActivity.this, MenuIncome.class);
+            startActivity(intent);
         } else if (item.getItemId() == R.id.settings) {
             Intent intent = new Intent(MainActivity.this, MenuSettings.class);
             startActivity(intent);
