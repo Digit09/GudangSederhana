@@ -67,17 +67,32 @@ public class MenuSettingsAccount extends AppCompatActivity {
             Toast.makeText(MenuSettingsAccount.this, "Fitur ini belum tersedia!", Toast.LENGTH_SHORT).show();
         });
         llKataSandi_msa.setOnClickListener(v -> {
-            String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            FirebaseAuth.getInstance().sendPasswordResetEmail(MainActivity.emailSaved.getString(auth, "false")).addOnCompleteListener(new OnCompleteListener<Void>() {
+            AlertDialog.Builder newData = new AlertDialog.Builder(this);
+            newData.setTitle("Konfirmasi Ganti Kata Sandi");
+            newData.setMessage("Ketika menekan tombol 'Lanjut' maka Anda diarahkan untuk membuka kotak masuk pada Email Anda untuk 'Reset Password'.\n\nApakah anda yakin ingin melakukan 'Reset Password' (mengganti kata sandi)?");
+            newData.setPositiveButton("Lanjutkan", new DialogInterface.OnClickListener() {
                 @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()){
-                        Toast.makeText(MenuSettingsAccount.this, "Periksa email anda untuk melakukan Reset!!", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(MenuSettingsAccount.this, "Harap Coba lagi!", Toast.LENGTH_LONG).show();
-                    }
+                public void onClick(DialogInterface dialog, int which) {
+                    String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    FirebaseAuth.getInstance().sendPasswordResetEmail(MainActivity.emailSaved.getString(auth, "false")).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(MenuSettingsAccount.this, "Periksa email anda untuk melakukan Reset!!", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(MenuSettingsAccount.this, "Harap Coba lagi!", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
             });
+            newData.setNegativeButton("Kembali", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            newData.create().show();
         });
 
         loadAccount();
