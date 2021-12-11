@@ -7,6 +7,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,13 +18,21 @@ import com.example.gudangsederhana.SplashScreen;
 public class MenuSettingsHelpInfo extends AppCompatActivity {
 
     RelativeLayout layout;
-    TextView tvVersion;
+    TextView tvVersion, tvBack;
     String version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_settings_help_info);
+
+        tvBack = findViewById(R.id.tvKembali);
+        SpannableString content = new SpannableString("Content");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        tvBack.setText(content);
+        tvBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
 
         tvVersion = findViewById(R.id.tvVersion_shi);
         try {

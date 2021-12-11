@@ -45,6 +45,17 @@
             android:textSize="16sp"
             android:layout_below="@id/splashlogo_info"
             android:id="@+id/added_tv3"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="Kembali"
+            android:textStyle="bold"
+            android:textColor="#001AFF"
+            android:textSize="16sp"
+            android:layout_below="@id/added_tv3"
+            android:id="@+id/tvKembali"/>
 
     </RelativeLayout>
 </RelativeLayout>

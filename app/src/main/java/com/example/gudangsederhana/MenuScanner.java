@@ -22,7 +22,7 @@ public class MenuScanner extends AppCompatActivity implements ZXingScannerView.R
     //ZXingScannerView scannerView;
     Boolean flashON = false;
     ZXingScannerView zxscan;
-    Button btFlash;
+    Button btFlash, btBack;
     private String getMenu;
 
     @Override
@@ -32,6 +32,7 @@ public class MenuScanner extends AppCompatActivity implements ZXingScannerView.R
 
         zxscan = (ZXingScannerView) findViewById(R.id.zxscan);
         btFlash = findViewById(R.id.btFlash);
+        btBack = findViewById(R.id.btBack_ms);
 
         // Camera Permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED)
@@ -50,6 +51,10 @@ public class MenuScanner extends AppCompatActivity implements ZXingScannerView.R
                 zxscan.setFlash(true);
                 flashON = true;
             }
+        });
+
+        btBack.setOnClickListener(v -> {
+            onBackPressed();
         });
 
         Intent intent = getIntent();

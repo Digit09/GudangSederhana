@@ -15,6 +15,15 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_margin="30dp"
+        android:background="@drawable/button_back"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:id="@+id/btBack_ms" />
+
+    <Button
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_margin="30dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_flash_off"
