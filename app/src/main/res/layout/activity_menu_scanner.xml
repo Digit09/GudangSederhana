@@ -6,4 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MenuScanner">
 
+    <me.dm7.barcodescanner.zxing.ZXingScannerView
+        android:id="@+id/zxscan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_margin="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_flash_off"
+        android:id="@+id/btFlash" />
+
 </RelativeLayout>

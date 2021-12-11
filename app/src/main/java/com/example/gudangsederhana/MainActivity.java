@@ -32,13 +32,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class MainActivity extends AppCompatActivity {
     long backPressedTime;
     Toast backToast;
     Toolbar toolBar;
     RelativeLayout rlRead, rlDataShow, rlAllButton;
     TextView tvResult, tvNama, tvHarga, tvModal, tvKategori, tvProdusen, tvKedaluwarsa, tvStok, tvKet, judulMenuC;
-    Button updateBtn, deleteBtn, showBtn, hideBtn, btManualAdd, scannerBtn;
+    Button updateBtn, deleteBtn, showBtn, hideBtn, btManualAdd, scannerBtn, btNotif;
     String auth, getResult = "0";
     public static SharedPreferences shopNameSaved, ownerSaved, addressSaved, phoneNumberSaved, emailSaved, passwordSaved;
 
@@ -62,9 +65,122 @@ public class MainActivity extends AppCompatActivity {
         //loadJudul();
         //cekIntentScanner();
         cekInternet();
+        cekKedaluwarsa();
+    }
+
+    private void cekKedaluwarsa() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods").child(auth);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Boolean dapat = false;
+                    for (DataSnapshot ds : snapshot.getChildren()){
+                        String expired = ds.child("expired").getValue().toString();
+                        if (!expired.equals("-")){
+                            if (cariKedaluwarsa(expired)){
+                                dapat = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (dapat){
+                        btNotif.setVisibility(View.VISIBLE);
+                        //Toast.makeText(MainActivity.this, "DAPAT", Toast.LENGTH_LONG).show();
+                    } else {
+                        btNotif.setVisibility(View.GONE);
+                        //Toast.makeText(MainActivity.this, " TIDAK DAPAT", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "Gagal memeriksa barang kedaluwarsa", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void alertKedaluwarsa() {
+        //loadExpiredData();
+        AlertDialog.Builder confirm = new AlertDialog.Builder(this);
+        confirm.setTitle("Barang Kedaluwarsa");
+        confirm.setMessage("Barang Makanan/Minuman Anda terdeteksi kedaluwarsa. Pilih 'Lanjut' untuk meninjau.");
+        confirm.setPositiveButton("Lanjut", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getApplicationContext(), MenuExpired.class);
+                startActivity(intent);
+            }
+        });
+        confirm.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        confirm.create().show();
+    }
+
+    private void loadExpiredData() {
+        MenuExpired.database = FirebaseDatabase.getInstance().getReference("Goods").child(auth);
+        MenuExpired.database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    MenuExpired.recyclerView.setVisibility(View.VISIBLE);
+                    MenuExpired.list.clear(); MenuExpired.myList.clear();
+                    for (DataSnapshot ds : snapshot.getChildren()){
+                        Goods goods = ds.getValue(Goods.class);
+                        MenuExpired.list.add(goods); MenuExpired.myList.add(goods);
+                    }
+                    MenuExpired.goodsAdapter.notifyDataSetChanged();
+                } else {
+                    MenuExpired.recyclerView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public static Boolean cariKedaluwarsa(String str){ // True berarti ada kedaluwarsa
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dd = DateTimeFormatter.ofPattern("dd");
+        DateTimeFormatter mm = DateTimeFormatter.ofPattern("MM");
+        DateTimeFormatter yyyy = DateTimeFormatter.ofPattern("yyyy");
+        Integer date = Integer.parseInt(dd.format(now));
+        Integer month = Integer.parseInt(mm.format(now));
+        Integer year = Integer.parseInt(yyyy.format(now));
+        // contoh : 09-05-2021
+        Integer dateStr = Integer.parseInt(str.substring(0,2));
+        Integer monthStr = Integer.parseInt(str.substring(3,5));
+        Integer yearStr = Integer.parseInt(str.substring(6));
+
+        if (yearStr < year){
+            return true;
+        } else if (yearStr > year){
+            return false;
+        } else {
+            if (monthStr < month){
+                return true;
+            } else if (monthStr > month){
+                return false;
+            } else {
+                if (dateStr <= date){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
     }
 
     private void declaration(){
+        auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         rlAllButton = findViewById(R.id.rlAllButton);
         scannerBtn = findViewById(R.id.btScan);
@@ -86,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         rlDataShow = findViewById(R.id.rlDataShow);
         showBtn = findViewById(R.id.btShow);
         hideBtn = findViewById(R.id.btHide);
+        btNotif = findViewById(R.id.btNotif);
     }
 
     private void allSettingClick() {
@@ -116,6 +233,10 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("btAdd", "true");
             startActivity(intent);
         });
+
+        btNotif.setOnClickListener(v -> {
+            alertKedaluwarsa();
+        });
     }
 
     public static String capitalizeEachWord(String str){
@@ -141,7 +262,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadData(String result) {
-        String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(result);
 
         // Toast.makeText(MainActivity.this, "Mencari Data..", Toast.LENGTH_LONG).show();
@@ -231,7 +351,6 @@ public class MainActivity extends AppCompatActivity {
         confirm.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Goods").child(auth).child(idbarang);
                 ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -300,12 +419,10 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(new Intent(MainActivity.this, Login.class));
                             finish();
                         } else {
-                            auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             loadJudul();
                             cekIntentScanner();
                         }
                     } else {
-                        auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         loadJudul();
                         cekIntentScanner();
                     }
@@ -363,7 +480,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Boolean cekSharedPreferenced(){
-        String auth = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String loadName = shopNameSaved.getString(auth, "false");
         String loadName2 = ownerSaved.getString(auth, "false");
         String loadName3 = addressSaved.getString(auth, "false");

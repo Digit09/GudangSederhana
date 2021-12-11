@@ -540,6 +540,7 @@ public class MenuSearch extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        edSearch.setText("");
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edSearch.getWindowToken(), 0);
     }

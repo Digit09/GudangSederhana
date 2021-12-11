@@ -5,8 +5,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -15,7 +19,10 @@ import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class MenuScanner extends AppCompatActivity implements ZXingScannerView.ResultHandler {
-    ZXingScannerView scannerView;
+    //ZXingScannerView scannerView;
+    Boolean flashON = false;
+    ZXingScannerView zxscan;
+    Button btFlash;
     private String getMenu;
 
     @Override
@@ -23,12 +30,27 @@ public class MenuScanner extends AppCompatActivity implements ZXingScannerView.R
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_scanner);
 
+        zxscan = (ZXingScannerView) findViewById(R.id.zxscan);
+        btFlash = findViewById(R.id.btFlash);
+
         // Camera Permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED)
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 100);
 
-        scannerView = new ZXingScannerView(this);
-        setContentView(scannerView);
+        //scannerView = new ZXingScannerView(this);
+        //setContentView(scannerView);
+
+        btFlash.setOnClickListener(v -> {
+            if (flashON){
+                btFlash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.button_flash_off));
+                zxscan.setFlash(false);
+                flashON = false;
+            } else {
+                btFlash.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.button_flash));
+                zxscan.setFlash(true);
+                flashON = true;
+            }
+        });
 
         Intent intent = getIntent();
         if (intent.hasExtra("sMenu")) {
@@ -52,14 +74,17 @@ public class MenuScanner extends AppCompatActivity implements ZXingScannerView.R
     @Override
     protected void onPause() {
         super.onPause();
-        scannerView.stopCamera();
+        zxscan.stopCamera();
+        //scannerView.stopCamera();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        scannerView.setResultHandler(this);
-        scannerView.startCamera();
+        //scannerView.setResultHandler(this);
+        //scannerView.startCamera();
+        zxscan.setResultHandler(this);
+        zxscan.startCamera();
     }
 
     @Override

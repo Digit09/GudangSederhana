@@ -78,6 +78,14 @@ public class MenuSearchDetail extends AppCompatActivity {
             showBtn.setVisibility(View.VISIBLE);
             hideBtn.setVisibility(View.GONE);
         });
+
+        tvKedaluwarsa.setOnClickListener(v -> {
+            if (MainActivity.cariKedaluwarsa(tvKedaluwarsa.getText().toString())){
+                Toast.makeText(MenuSearchDetail.this, "Kedaluwarsa", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(MenuSearchDetail.this, "Tidak", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override

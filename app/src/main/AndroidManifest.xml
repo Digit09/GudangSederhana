@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GudangSederhana">
-        <activity android:name=".settings.MenuSettingsHelpInfo"></activity>
+        <activity android:name=".MenuExpired"></activity>
+        <activity android:name=".settings.MenuSettingsHelpInfo" />
         <activity android:name=".settings.MenuSettingsAccount" />
         <activity android:name=".settings.MenuSettingsHelp" />
         <activity android:name=".MenuIncome" />

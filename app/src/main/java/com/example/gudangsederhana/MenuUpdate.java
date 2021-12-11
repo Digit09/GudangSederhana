@@ -123,9 +123,12 @@ public class MenuUpdate extends AppCompatActivity {
                                     String teks = "Data belum ada perubahan! Tekan tombol kembali jika ingin batal";
                                     Toast.makeText(MenuUpdate.this, teks, Toast.LENGTH_LONG).show();
                                 } else {
-                                    //Toast.makeText(MenuUpdate.this, "expired", Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(MenuUpdate.this, "stock", Toast.LENGTH_LONG).show();
                                     updateConfirm(id);
                                 }
+                            } else {
+                                //Toast.makeText(MenuUpdate.this, "expired", Toast.LENGTH_LONG).show();
+                                updateConfirm(id);
                             }
                         } else {
                             //Toast.makeText(MenuUpdate.this, "producer", Toast.LENGTH_LONG).show();

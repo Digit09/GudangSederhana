@@ -131,9 +131,6 @@ public class MenuIncome extends AppCompatActivity {
                     Boolean dapat = false;
                     for (DataSnapshot ds : snapshot.getChildren()){
                         String dateDBV = ds.child("date").getValue().toString();
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy");
-                        LocalDateTime now = LocalDateTime.now();
-                        String dateNowV = dtf.format(now);
                         if (!dateDBV.substring(3).equals(dateNowV)){
                             dapat = true;
                             break;
